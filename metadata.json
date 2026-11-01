@@ -1,0 +1,6 @@
+{
+  "name": "Smali Learn Pro",
+  "description": "Professional Android Smali Learning & Reverse Engineering Academy. Master Smali, Dalvik bytecode, DEX, and APK architecture with interactive comparisons, register visualizer, and multilingual courses.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
