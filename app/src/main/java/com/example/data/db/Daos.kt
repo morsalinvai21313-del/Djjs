@@ -55,4 +55,10 @@ interface LearningDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun recordQuiz(entity: CompletedQuizEntity)
+
+    @Query("DELETE FROM completed_lessons")
+    suspend fun clearAllCompletedLessons()
+
+    @Query("DELETE FROM completed_quizzes")
+    suspend fun clearAllQuizzes()
 }

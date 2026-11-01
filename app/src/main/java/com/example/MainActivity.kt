@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -27,28 +28,18 @@ import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AutoAwesome
-import androidx.compose.material.icons.filled.Code
-import androidx.compose.material.icons.filled.Dashboard
-import androidx.compose.material.icons.filled.Language
-import androidx.compose.material.icons.filled.LocalFireDepartment
+import androidx.compose.material.icons.filled.DarkMode
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.LightMode
 import androidx.compose.material.icons.filled.MenuBook
 import androidx.compose.material.icons.filled.Psychology
+import androidx.compose.material.icons.filled.Science
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.filled.Star
-import androidx.compose.material.icons.filled.Storage
 import androidx.compose.material.icons.filled.Terminal
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.ScrollableTabRow
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Tab
-import androidx.compose.material3.TabRowDefaults
-import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -56,16 +47,19 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalLayoutDirection
-import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.localization.LocalAppLanguage
 import com.example.localization.localizedString
+import com.example.ui.components.IosHairlineDivider
 import com.example.ui.components.LanguagePickerDialog
 import com.example.ui.screens.CodeComparisonScreen
 import com.example.ui.screens.CurriculumScreen
@@ -75,27 +69,20 @@ import com.example.ui.screens.PlaygroundScreen
 import com.example.ui.screens.QuizArenaScreen
 import com.example.ui.screens.RegisterVisualizerScreen
 import com.example.ui.screens.SettingsScreen
-import com.example.ui.theme.AccentAmber
-import com.example.ui.theme.AccentCyan
-import com.example.ui.theme.AccentEmerald
-import com.example.ui.theme.AccentPurple
-import com.example.ui.theme.AccentRose
-import com.example.ui.theme.DevBackground
-import com.example.ui.theme.DevSurface
-import com.example.ui.theme.DevSurfaceBorder
-import com.example.ui.theme.DevSurfaceVariant
+import com.example.ui.theme.CodeMonoFontFamily
+import com.example.ui.theme.IosBlue
+import com.example.ui.theme.IosIndigo
+import com.example.ui.theme.LocalIosPalette
 import com.example.ui.theme.MyApplicationTheme
-import com.example.ui.theme.TextMuted
-import com.example.ui.theme.TextPrimary
-import com.example.ui.theme.TextSecondary
 import com.example.viewmodel.NavTab
 import com.example.viewmodel.SmaliUiState
 import com.example.viewmodel.SmaliViewModel
 
-data class BottomBarItem(
+data class CupertinoTabItem(
     val tab: NavTab,
     val titleKey: String,
-    val icon: ImageVector
+    val icon: ImageVector,
+    val matches: Set<NavTab> = setOf(tab)
 )
 
 class MainActivity : ComponentActivity() {
@@ -108,13 +95,17 @@ class MainActivity : ComponentActivity() {
         setContent {
             val uiState by viewModel.uiState.collectAsState()
 
-            MyApplicationTheme {
+            MyApplicationTheme(
+                darkTheme = uiState.isDarkTheme,
+                language = uiState.language
+            ) {
                 CompositionLocalProvider(
                     LocalAppLanguage provides uiState.language,
                     LocalLayoutDirection provides uiState.language.layoutDirection
                 ) {
-                    // Back handler: Close lesson first if open, or return to Dashboard
-                    BackHandler(enabled = uiState.activeLesson != null || uiState.currentTab != NavTab.DASHBOARD) {
+                    BackHandler(
+                        enabled = uiState.activeLesson != null || uiState.currentTab != NavTab.DASHBOARD
+                    ) {
                         if (uiState.activeLesson != null) {
                             viewModel.closeLesson()
                         } else {
@@ -127,7 +118,6 @@ class MainActivity : ComponentActivity() {
                         viewModel = viewModel
                     )
 
-                    // First-Launch & On-Demand Language Picker Modal
                     if (uiState.showLanguageDialog) {
                         LanguagePickerDialog(
                             selectedLanguage = uiState.language,
@@ -146,35 +136,48 @@ fun MainAppScaffold(
     uiState: SmaliUiState,
     viewModel: SmaliViewModel
 ) {
-    val navItems = listOf(
-        BottomBarItem(NavTab.DASHBOARD, "nav_home", Icons.Default.Dashboard),
-        BottomBarItem(NavTab.CURRICULUM, "nav_curriculum", Icons.Default.MenuBook),
-        BottomBarItem(NavTab.STUDIO, "nav_compare", Icons.Default.Code),
-        BottomBarItem(NavTab.VISUALIZER, "nav_visualizer", Icons.Default.Storage),
-        BottomBarItem(NavTab.DICTIONARY, "nav_dictionary", Icons.Default.Terminal),
-        BottomBarItem(NavTab.PLAYGROUND, "nav_playground", Icons.Default.AutoAwesome),
-        BottomBarItem(NavTab.QUIZ, "nav_quiz", Icons.Default.Psychology),
-        BottomBarItem(NavTab.SETTINGS, "nav_settings", Icons.Default.Settings)
-    )
+    val palette = LocalIosPalette.current
 
-    val morsalinAppBackgroundBrush = Brush.verticalGradient(
-        colors = listOf(
-            Color(0xFF050811),
-            Color(0xFF0B1020),
-            Color(0xFF0F172C)
+    val navItems = listOf(
+        CupertinoTabItem(
+            tab = NavTab.DASHBOARD,
+            titleKey = "nav_home",
+            icon = Icons.Default.Home
+        ),
+        CupertinoTabItem(
+            tab = NavTab.CURRICULUM,
+            titleKey = "nav_curriculum",
+            icon = Icons.Default.MenuBook
+        ),
+        CupertinoTabItem(
+            tab = NavTab.DICTIONARY,
+            titleKey = "nav_dictionary",
+            icon = Icons.Default.Terminal
+        ),
+        CupertinoTabItem(
+            tab = NavTab.STUDIO,
+            titleKey = "nav_lab",
+            icon = Icons.Default.Science,
+            matches = setOf(NavTab.STUDIO, NavTab.VISUALIZER, NavTab.PLAYGROUND)
+        ),
+        CupertinoTabItem(
+            tab = NavTab.QUIZ,
+            titleKey = "nav_quiz",
+            icon = Icons.Default.Psychology
         )
     )
 
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
-            .background(morsalinAppBackgroundBrush),
-        containerColor = Color.Transparent,
+            .background(palette.groupedBackground),
+        containerColor = palette.groupedBackground,
+        contentWindowInsets = WindowInsets(0, 0, 0, 0),
         topBar = {
-            TopAcademyBar(uiState = uiState, viewModel = viewModel)
+            CupertinoTopBar(uiState = uiState, viewModel = viewModel)
         },
         bottomBar = {
-            AcademyBottomNav(
+            CupertinoBottomDock(
                 currentTab = uiState.currentTab,
                 navItems = navItems,
                 onSelectTab = { viewModel.selectTab(it) }
@@ -189,9 +192,9 @@ fun MainAppScaffold(
             when (uiState.currentTab) {
                 NavTab.DASHBOARD -> DashboardScreen(uiState = uiState, viewModel = viewModel)
                 NavTab.CURRICULUM -> CurriculumScreen(uiState = uiState, viewModel = viewModel)
+                NavTab.DICTIONARY -> InstructionDictionaryScreen(uiState = uiState, viewModel = viewModel)
                 NavTab.STUDIO -> CodeComparisonScreen(uiState = uiState, viewModel = viewModel)
                 NavTab.VISUALIZER -> RegisterVisualizerScreen(uiState = uiState, viewModel = viewModel)
-                NavTab.DICTIONARY -> InstructionDictionaryScreen(uiState = uiState, viewModel = viewModel)
                 NavTab.PLAYGROUND -> PlaygroundScreen(uiState = uiState, viewModel = viewModel)
                 NavTab.QUIZ -> QuizArenaScreen(uiState = uiState, viewModel = viewModel)
                 NavTab.SETTINGS -> SettingsScreen(uiState = uiState, viewModel = viewModel)
@@ -201,171 +204,206 @@ fun MainAppScaffold(
 }
 
 @Composable
-fun TopAcademyBar(
+fun CupertinoTopBar(
     uiState: SmaliUiState,
     viewModel: SmaliViewModel
 ) {
+    val palette = LocalIosPalette.current
+
     Surface(
-        color = DevSurface,
-        modifier = Modifier
-            .fillMaxWidth()
-            .windowInsetsPadding(WindowInsets.statusBars)
-            .border(1.dp, DevSurfaceBorder)
+        color = palette.glassBar,
+        modifier = Modifier.fillMaxWidth()
     ) {
-        Row(
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 14.dp, vertical = 10.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
+                .windowInsetsPadding(WindowInsets.statusBars)
         ) {
-            // App Branding & Logo
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Box(
-                    modifier = Modifier
-                        .size(32.dp)
-                        .background(AccentCyan.copy(alpha = 0.15f), CircleShape)
-                        .border(1.dp, AccentCyan, CircleShape),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        text = "S",
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = AccentCyan,
-                        fontFamily = FontFamily.Monospace
-                    )
-                }
-                Spacer(Modifier.width(10.dp))
-                Column {
-                    Text(
-                        text = localizedString("app_title"),
-                        fontSize = 15.sp,
-                        fontWeight = FontWeight.ExtraBold,
-                        color = TextPrimary,
-                        letterSpacing = 0.5.sp
-                    )
-                    Text(
-                        text = "ACADEMY",
-                        fontSize = 9.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = AccentCyan,
-                        letterSpacing = 1.sp
-                    )
-                }
-            }
-
-            // Streak & Language Switcher
             Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                // Streak Pill
-                Surface(
-                    shape = RoundedCornerShape(16.dp),
-                    color = DevSurfaceVariant,
-                    modifier = Modifier.border(1.dp, DevSurfaceBorder, RoundedCornerShape(16.dp))
+                // Brand Emblem + Localized Title
+                Row(
+                    modifier = Modifier
+                        .weight(1f)
+                        .clickable { viewModel.selectTab(NavTab.DASHBOARD) },
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Row(
-                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
-                        verticalAlignment = Alignment.CenterVertically
+                    Box(
+                        modifier = Modifier
+                            .size(36.dp)
+                            .clip(RoundedCornerShape(11.dp))
+                            .background(
+                                Brush.linearGradient(listOf(IosBlue, IosIndigo))
+                            ),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = "{S}",
+                            fontSize = 13.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color.White,
+                            fontFamily = CodeMonoFontFamily
+                        )
+                    }
+                    Spacer(Modifier.width(10.dp))
+                    Column {
+                        Text(
+                            text = localizedString("app_title"),
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = palette.textPrimary,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                        Text(
+                            text = localizedString("app_subtitle_badge"),
+                            fontSize = 10.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            color = palette.primaryBlue,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                    }
+                }
+
+                // Right Controls: Language Pill + Theme Toggle + Settings
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    Surface(
+                        shape = CircleShape,
+                        color = palette.pillBackground,
+                        modifier = Modifier
+                            .defaultMinSize(minHeight = 40.dp)
+                            .border(0.8.dp, palette.separator, CircleShape)
+                            .clip(CircleShape)
+                            .clickable { viewModel.showLanguageDialog() }
+                            .testTag("top_language_button")
+                    ) {
+                        Row(
+                            modifier = Modifier.padding(horizontal = 11.dp, vertical = 7.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(text = uiState.language.flag, fontSize = 14.sp)
+                            Spacer(Modifier.width(5.dp))
+                            Text(
+                                text = uiState.language.nativeName,
+                                fontSize = 12.sp,
+                                fontWeight = FontWeight.SemiBold,
+                                color = palette.textPrimary,
+                                maxLines = 1
+                            )
+                        }
+                    }
+
+                    IconButton(
+                        onClick = { viewModel.toggleDarkTheme(!uiState.isDarkTheme) },
+                        modifier = Modifier
+                            .size(44.dp)
+                            .testTag("top_theme_toggle")
                     ) {
                         Icon(
-                            imageVector = Icons.Default.LocalFireDepartment,
-                            contentDescription = null,
-                            tint = AccentAmber,
-                            modifier = Modifier.size(15.dp)
-                        )
-                        Spacer(Modifier.width(3.dp))
-                        Text(
-                            text = "${uiState.userProgress.currentStreak}",
-                            fontSize = 11.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = AccentAmber
+                            imageVector = if (uiState.isDarkTheme) Icons.Default.LightMode else Icons.Default.DarkMode,
+                            contentDescription = localizedString("settings_theme_title"),
+                            tint = palette.textSecondary,
+                            modifier = Modifier.size(20.dp)
                         )
                     }
-                }
 
-                // Language Button
-                Surface(
-                    shape = RoundedCornerShape(16.dp),
-                    color = DevSurfaceVariant,
-                    modifier = Modifier
-                        .border(1.dp, AccentCyan.copy(alpha = 0.4f), RoundedCornerShape(16.dp))
-                        .clickable { viewModel.showLanguageDialog() }
-                ) {
-                    Row(
-                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
-                        verticalAlignment = Alignment.CenterVertically
+                    IconButton(
+                        onClick = { viewModel.selectTab(NavTab.SETTINGS) },
+                        modifier = Modifier
+                            .size(44.dp)
+                            .testTag("top_settings_button")
                     ) {
-                        Text(text = uiState.language.flag, fontSize = 14.sp)
-                        Spacer(Modifier.width(4.dp))
-                        Text(
-                            text = uiState.language.nativeName.take(6),
-                            fontSize = 11.sp,
-                            fontWeight = FontWeight.SemiBold,
-                            color = TextPrimary
+                        Icon(
+                            imageVector = Icons.Default.Settings,
+                            contentDescription = localizedString("nav_settings"),
+                            tint = if (uiState.currentTab == NavTab.SETTINGS) palette.primaryBlue else palette.textSecondary,
+                            modifier = Modifier.size(20.dp)
                         )
                     }
                 }
             }
+            IosHairlineDivider()
         }
     }
 }
 
 @Composable
-fun AcademyBottomNav(
+fun CupertinoBottomDock(
     currentTab: NavTab,
-    navItems: List<BottomBarItem>,
+    navItems: List<CupertinoTabItem>,
     onSelectTab: (NavTab) -> Unit
 ) {
+    val palette = LocalIosPalette.current
+
     Surface(
-        color = DevSurface,
-        modifier = Modifier
-            .fillMaxWidth()
-            .windowInsetsPadding(WindowInsets.navigationBars)
-            .border(1.dp, DevSurfaceBorder)
+        color = palette.glassBar,
+        modifier = Modifier.fillMaxWidth()
     ) {
-        ScrollableTabRow(
-            selectedTabIndex = navItems.indexOfFirst { it.tab == currentTab }.coerceAtLeast(0),
-            containerColor = DevSurface,
-            contentColor = AccentCyan,
-            edgePadding = 8.dp,
-            indicator = { tabPositions ->
-                val index = navItems.indexOfFirst { it.tab == currentTab }.coerceAtLeast(0)
-                TabRowDefaults.SecondaryIndicator(
-                    modifier = Modifier.tabIndicatorOffset(tabPositions[index]),
-                    color = AccentCyan,
-                    height = 2.5.dp
-                )
-            }
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .windowInsetsPadding(WindowInsets.navigationBars)
         ) {
-            navItems.forEach { item ->
-                val isSelected = item.tab == currentTab
-                Tab(
-                    selected = isSelected,
-                    onClick = { onSelectTab(item.tab) },
-                    text = {
-                        Column(
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            modifier = Modifier.padding(vertical = 6.dp)
+            IosHairlineDivider()
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 6.dp, vertical = 6.dp),
+                horizontalArrangement = Arrangement.SpaceAround,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                navItems.forEach { item ->
+                    val isSelected = item.matches.contains(currentTab)
+                    val tint = if (isSelected) palette.primaryBlue else palette.textMuted
+
+                    Column(
+                        modifier = Modifier
+                            .weight(1f)
+                            .defaultMinSize(minHeight = 50.dp)
+                            .clip(RoundedCornerShape(12.dp))
+                            .clickable { onSelectTab(item.tab) }
+                            .padding(vertical = 4.dp)
+                            .testTag("bottom_nav_${item.tab.name.lowercase()}"),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .clip(RoundedCornerShape(10.dp))
+                                .background(
+                                    if (isSelected) palette.primaryBlue.copy(alpha = 0.14f)
+                                    else Color.Transparent
+                                )
+                                .padding(horizontal = 12.dp, vertical = 3.dp),
+                            contentAlignment = Alignment.Center
                         ) {
                             Icon(
                                 imageVector = item.icon,
                                 contentDescription = localizedString(item.titleKey),
-                                tint = if (isSelected) AccentCyan else TextSecondary,
-                                modifier = Modifier.size(20.dp)
-                            )
-                            Spacer(Modifier.height(3.dp))
-                            Text(
-                                text = localizedString(item.titleKey),
-                                fontSize = 11.sp,
-                                fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
-                                color = if (isSelected) AccentCyan else TextSecondary
+                                tint = tint,
+                                modifier = Modifier.size(21.dp)
                             )
                         }
+                        Spacer(Modifier.height(3.dp))
+                        Text(
+                            text = localizedString(item.titleKey),
+                            fontSize = 10.sp,
+                            fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
+                            color = tint,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
+                        )
                     }
-                )
+                }
             }
         }
     }

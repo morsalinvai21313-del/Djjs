@@ -1,7 +1,6 @@
 package com.example.ui.screens
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -9,17 +8,18 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ChevronRight
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Language
 import androidx.compose.material.icons.filled.Palette
@@ -28,12 +28,9 @@ import androidx.compose.material.icons.filled.Security
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Storage
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Surface
+import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -43,25 +40,25 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.localization.LocalAppLanguage
+import com.example.localization.localizedFormat
 import com.example.localization.localizedString
-import com.example.ui.theme.AccentAmber
-import com.example.ui.theme.AccentCyan
-import com.example.ui.theme.AccentEmerald
-import com.example.ui.theme.AccentPurple
-import com.example.ui.theme.AccentRose
-import com.example.ui.theme.DevBackground
-import com.example.ui.theme.DevSurface
-import com.example.ui.theme.DevSurfaceBorder
-import com.example.ui.theme.DevSurfaceVariant
-import com.example.ui.theme.TextMuted
-import com.example.ui.theme.TextPrimary
-import com.example.ui.theme.TextSecondary
+import com.example.ui.components.IosGroupedCard
+import com.example.ui.components.IosHairlineDivider
+import com.example.ui.components.IosIconSquircle
+import com.example.ui.components.IosSectionTitle
+import com.example.ui.components.MorsalinButton
+import com.example.ui.theme.IosBlue
+import com.example.ui.theme.IosCyan
+import com.example.ui.theme.IosGreen
+import com.example.ui.theme.IosOrange
+import com.example.ui.theme.IosPink
+import com.example.ui.theme.IosPurple
+import com.example.ui.theme.LocalIosPalette
 import com.example.viewmodel.SmaliUiState
 import com.example.viewmodel.SmaliViewModel
 
@@ -71,162 +68,282 @@ fun SettingsScreen(
     viewModel: SmaliViewModel,
     modifier: Modifier = Modifier
 ) {
+    val palette = LocalIosPalette.current
     val currentLang = LocalAppLanguage.current
     var showResetDialog by remember { mutableStateOf(false) }
 
-    LazyColumn(
+    Box(
         modifier = modifier
             .fillMaxSize()
-            .background(DevBackground)
-            .padding(horizontal = 16.dp),
-        contentPadding = PaddingValues(vertical = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+            .background(palette.groupedBackground),
+        contentAlignment = Alignment.TopCenter
     ) {
-        item {
-            Surface(
-                color = DevSurface,
-                shape = RoundedCornerShape(12.dp),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .border(1.dp, DevSurfaceBorder, RoundedCornerShape(12.dp))
-            ) {
-                Row(
-                    modifier = Modifier.padding(14.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .size(36.dp)
-                            .background(AccentCyan.copy(alpha = 0.15f), RoundedCornerShape(8.dp)),
-                        contentAlignment = Alignment.Center
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .widthIn(max = 680.dp)
+                .padding(horizontal = 16.dp),
+            contentPadding = PaddingValues(top = 14.dp, bottom = 28.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            // Cupertino Settings Header Card
+            item {
+                IosGroupedCard {
+                    Row(
+                        modifier = Modifier.padding(16.dp),
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
+                        IosIconSquircle(
+                            icon = Icons.Default.Settings,
+                            tint = IosBlue,
+                            boxSize = 42.dp,
+                            iconSize = 22.dp
+                        )
+                        Spacer(Modifier.width(14.dp))
+                        Column(modifier = Modifier.weight(1f)) {
+                            Text(
+                                text = localizedString("nav_settings"),
+                                fontSize = 18.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = palette.textPrimary
+                            )
+                            Spacer(Modifier.height(2.dp))
+                            Text(
+                                text = localizedString("settings_subtitle"),
+                                fontSize = 13.sp,
+                                color = palette.textSecondary,
+                                lineHeight = 18.sp
+                            )
+                        }
+                    }
+                }
+            }
+
+            // Section 1: Appearance & Language (iPhone Inset Grouped List)
+            item {
+                IosSectionTitle(title = localizedString("settings_sec_appearance"))
+                IosGroupedCard {
+                    // Language Row
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .defaultMinSize(minHeight = 58.dp)
+                            .clickable { viewModel.showLanguageDialog() }
+                            .padding(horizontal = 14.dp, vertical = 12.dp)
+                            .testTag("settings_language_row"),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        IosIconSquircle(
+                            icon = Icons.Default.Language,
+                            tint = IosBlue,
+                            boxSize = 36.dp,
+                            iconSize = 19.dp
+                        )
+                        Spacer(Modifier.width(12.dp))
+                        Column(modifier = Modifier.weight(1f)) {
+                            Text(
+                                text = localizedString("settings_lang_title"),
+                                fontSize = 15.sp,
+                                fontWeight = FontWeight.SemiBold,
+                                color = palette.textPrimary
+                            )
+                            Text(
+                                text = "${currentLang.flag} ${currentLang.nativeName} • ${currentLang.country}",
+                                fontSize = 12.sp,
+                                color = palette.textSecondary
+                            )
+                        }
                         Icon(
-                            imageVector = Icons.Default.Settings,
+                            imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
                             contentDescription = null,
-                            tint = AccentCyan,
-                            modifier = Modifier.size(20.dp)
+                            tint = palette.textMuted,
+                            modifier = Modifier.size(22.dp)
                         )
                     }
-                    Spacer(Modifier.width(12.dp))
-                    Column {
-                        Text(
-                            text = localizedString("nav_settings"),
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = TextPrimary
+
+                    IosHairlineDivider(modifier = Modifier.padding(start = 62.dp))
+
+                    // Dark / Light Theme Switch Row
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .defaultMinSize(minHeight = 58.dp)
+                            .clickable { viewModel.toggleDarkTheme(!uiState.isDarkTheme) }
+                            .padding(horizontal = 14.dp, vertical = 10.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        IosIconSquircle(
+                            icon = Icons.Default.Palette,
+                            tint = IosPurple,
+                            boxSize = 36.dp,
+                            iconSize = 19.dp
                         )
-                        Text(
-                            text = "Preferences, multilingual switcher & offline data",
-                            fontSize = 12.sp,
-                            color = TextSecondary
+                        Spacer(Modifier.width(12.dp))
+                        Column(modifier = Modifier.weight(1f)) {
+                            Text(
+                                text = localizedString("settings_theme_title"),
+                                fontSize = 15.sp,
+                                fontWeight = FontWeight.SemiBold,
+                                color = palette.textPrimary
+                            )
+                            Text(
+                                text = if (uiState.isDarkTheme) {
+                                    localizedString("theme_dark_label")
+                                } else {
+                                    localizedString("theme_light_label")
+                                },
+                                fontSize = 12.sp,
+                                color = palette.textSecondary
+                            )
+                        }
+                        Switch(
+                            checked = uiState.isDarkTheme,
+                            onCheckedChange = { viewModel.toggleDarkTheme(it) },
+                            colors = SwitchDefaults.colors(
+                                checkedThumbColor = androidx.compose.ui.graphics.Color.White,
+                                checkedTrackColor = IosGreen
+                            ),
+                            modifier = Modifier.testTag("settings_theme_switch")
                         )
                     }
                 }
             }
-        }
 
-        // Language Setting Card
-        item {
-            SettingsClickableItem(
-                icon = Icons.Default.Language,
-                title = "Language / ভাষা / زبان / لغة",
-                subtitle = "${currentLang.flag} ${currentLang.nativeName} (${currentLang.name})",
-                accentColor = AccentCyan,
-                onClick = { viewModel.showLanguageDialog() }
-            )
-        }
+            // Section 2: Offline Progress & Storage
+            item {
+                IosSectionTitle(title = localizedString("settings_sec_data"))
+                IosGroupedCard {
+                    // Study Database Row
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .defaultMinSize(minHeight = 58.dp)
+                            .padding(horizontal = 14.dp, vertical = 12.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        IosIconSquircle(
+                            icon = Icons.Default.Storage,
+                            tint = IosGreen,
+                            boxSize = 36.dp,
+                            iconSize = 19.dp
+                        )
+                        Spacer(Modifier.width(12.dp))
+                        Column(modifier = Modifier.weight(1f)) {
+                            Text(
+                                text = localizedString("settings_db_title"),
+                                fontSize = 15.sp,
+                                fontWeight = FontWeight.SemiBold,
+                                color = palette.textPrimary
+                            )
+                            Text(
+                                text = localizedFormat(
+                                    "settings_db_subtitle_fmt",
+                                    uiState.completedLessonIds.size,
+                                    uiState.bookmarkedLessonIds.size
+                                ),
+                                fontSize = 12.sp,
+                                color = palette.textSecondary
+                            )
+                        }
+                    }
 
-        // Theme Item
-        item {
-            SettingsClickableItem(
-                icon = Icons.Default.Palette,
-                title = "Developer Theme",
-                subtitle = "Matrix Cyber Dark (OLED Optimized)",
-                accentColor = AccentPurple,
-                onClick = { /* Default dark theme */ }
-            )
-        }
+                    IosHairlineDivider(modifier = Modifier.padding(start = 62.dp))
 
-        // Storage / Database Item
-        item {
-            SettingsClickableItem(
-                icon = Icons.Default.Storage,
-                title = "Offline Learning Database",
-                subtitle = "Local Room DB • ${uiState.completedLessonIds.size} completed • ${uiState.bookmarkedLessonIds.size} bookmarks",
-                accentColor = AccentEmerald,
-                onClick = { }
-            )
-        }
-
-        // Reset Progress Item
-        item {
-            SettingsClickableItem(
-                icon = Icons.Default.Refresh,
-                title = "Reset Learning Progress",
-                subtitle = "Clear XP, streak, and quiz scores",
-                accentColor = AccentRose,
-                onClick = { showResetDialog = true }
-            )
-        }
-
-        // About & Version Card
-        item {
-            Card(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .border(1.dp, DevSurfaceBorder, RoundedCornerShape(12.dp)),
-                colors = CardDefaults.cardColors(containerColor = DevSurface),
-                shape = RoundedCornerShape(12.dp)
-            ) {
-                Column(modifier = Modifier.padding(16.dp)) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Icon(Icons.Default.Info, contentDescription = null, tint = AccentCyan, modifier = Modifier.size(20.dp))
-                        Spacer(Modifier.width(8.dp))
-                        Text(
-                            text = "About Smali Learn Pro",
-                            fontSize = 14.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = TextPrimary
+                    // Reset Progress Row
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .defaultMinSize(minHeight = 58.dp)
+                            .clickable { showResetDialog = true }
+                            .padding(horizontal = 14.dp, vertical = 12.dp)
+                            .testTag("settings_reset_row"),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        IosIconSquircle(
+                            icon = Icons.Default.Refresh,
+                            tint = IosPink,
+                            boxSize = 36.dp,
+                            iconSize = 19.dp
+                        )
+                        Spacer(Modifier.width(12.dp))
+                        Column(modifier = Modifier.weight(1f)) {
+                            Text(
+                                text = localizedString("settings_reset_title"),
+                                fontSize = 15.sp,
+                                fontWeight = FontWeight.SemiBold,
+                                color = IosPink
+                            )
+                            Text(
+                                text = localizedString("settings_reset_subtitle"),
+                                fontSize = 12.sp,
+                                color = palette.textSecondary
+                            )
+                        }
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                            contentDescription = null,
+                            tint = palette.textMuted,
+                            modifier = Modifier.size(22.dp)
                         )
                     }
-                    Spacer(Modifier.height(6.dp))
-                    Text(
-                        text = "Version 1.0.0 (Production Release)\nDesigned for security researchers, Android engineers, and computer science students to master Dalvik Executable (DEX) bytecode, ART register allocation, and human-readable Smali assembly.",
-                        fontSize = 12.sp,
-                        color = TextSecondary,
-                        lineHeight = 17.sp
-                    )
                 }
             }
-        }
 
-        // Ethical Notice Card
-        item {
-            Card(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .border(1.dp, AccentAmber.copy(alpha = 0.4f), RoundedCornerShape(12.dp)),
-                colors = CardDefaults.cardColors(containerColor = DevSurfaceVariant),
-                shape = RoundedCornerShape(12.dp)
-            ) {
-                Column(modifier = Modifier.padding(14.dp)) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Icon(Icons.Default.Security, contentDescription = null, tint = AccentAmber, modifier = Modifier.size(18.dp))
-                        Spacer(Modifier.width(8.dp))
+            // Section 3: About Academy & Security Notice
+            item {
+                IosSectionTitle(title = localizedString("settings_sec_about"))
+                IosGroupedCard {
+                    Column(modifier = Modifier.padding(16.dp)) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            IosIconSquircle(
+                                icon = Icons.Default.Info,
+                                tint = IosCyan,
+                                boxSize = 34.dp,
+                                iconSize = 18.dp
+                            )
+                            Spacer(Modifier.width(10.dp))
+                            Text(
+                                text = localizedString("about_title"),
+                                fontSize = 15.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = palette.textPrimary
+                            )
+                        }
+                        Spacer(Modifier.height(8.dp))
                         Text(
-                            text = localizedString("ethical_disclaimer_title"),
+                            text = localizedString("about_body"),
                             fontSize = 13.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = AccentAmber
+                            color = palette.textSecondary,
+                            lineHeight = 19.sp
                         )
                     }
-                    Spacer(Modifier.height(6.dp))
-                    Text(
-                        text = localizedString("ethical_disclaimer_body"),
-                        fontSize = 11.sp,
-                        color = TextSecondary,
-                        lineHeight = 16.sp
-                    )
+
+                    IosHairlineDivider(modifier = Modifier.padding(horizontal = 16.dp))
+
+                    Column(modifier = Modifier.padding(16.dp)) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            IosIconSquircle(
+                                icon = Icons.Default.Security,
+                                tint = IosOrange,
+                                boxSize = 34.dp,
+                                iconSize = 18.dp
+                            )
+                            Spacer(Modifier.width(10.dp))
+                            Text(
+                                text = localizedString("ethical_disclaimer_title"),
+                                fontSize = 14.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = IosOrange
+                            )
+                        }
+                        Spacer(Modifier.height(8.dp))
+                        Text(
+                            text = localizedString("ethical_disclaimer_body"),
+                            fontSize = 12.sp,
+                            color = palette.textSecondary,
+                            lineHeight = 18.sp
+                        )
+                    }
                 }
             }
         }
@@ -235,87 +352,45 @@ fun SettingsScreen(
     if (showResetDialog) {
         AlertDialog(
             onDismissRequest = { showResetDialog = false },
-            title = { Text("Reset Progress?", fontWeight = FontWeight.Bold, color = TextPrimary) },
+            title = {
+                Text(
+                    text = localizedString("reset_dialog_title"),
+                    fontWeight = FontWeight.Bold,
+                    color = palette.textPrimary
+                )
+            },
             text = {
                 Text(
-                    "Are you sure you want to reset your XP and streak? Your database records will be reinitialized.",
-                    fontSize = 13.sp,
-                    color = TextSecondary
+                    text = localizedString("reset_dialog_body"),
+                    fontSize = 14.sp,
+                    color = palette.textSecondary,
+                    lineHeight = 20.sp
                 )
             },
             confirmButton = {
-                com.example.ui.components.MorsalinButton(
-                    text = "Reset",
+                MorsalinButton(
+                    text = localizedString("reset_confirm_btn"),
                     onClick = {
                         viewModel.resetProgress()
                         showResetDialog = false
-                    }
+                    },
+                    modifier = Modifier.testTag("confirm_reset_button")
                 )
             },
             dismissButton = {
-                TextButton(onClick = { showResetDialog = false }) {
-                    Text("Cancel", color = TextSecondary)
+                TextButton(
+                    onClick = { showResetDialog = false },
+                    modifier = Modifier.defaultMinSize(minHeight = 48.dp)
+                ) {
+                    Text(
+                        text = localizedString("cancel_btn"),
+                        color = palette.textSecondary,
+                        fontWeight = FontWeight.SemiBold
+                    )
                 }
             },
-            containerColor = DevSurface,
-            shape = RoundedCornerShape(14.dp)
+            containerColor = palette.card,
+            shape = RoundedCornerShape(24.dp)
         )
-    }
-}
-
-@Composable
-fun SettingsClickableItem(
-    icon: ImageVector,
-    title: String,
-    subtitle: String,
-    accentColor: Color,
-    onClick: () -> Unit
-) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .border(1.dp, DevSurfaceBorder, RoundedCornerShape(12.dp))
-            .clickable(onClick = onClick),
-        colors = CardDefaults.cardColors(containerColor = DevSurface),
-        shape = RoundedCornerShape(12.dp)
-    ) {
-        Row(
-            modifier = Modifier.padding(14.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Box(
-                modifier = Modifier
-                    .size(34.dp)
-                    .background(accentColor.copy(alpha = 0.15f), RoundedCornerShape(8.dp)),
-                contentAlignment = Alignment.Center
-            ) {
-                Icon(
-                    imageVector = icon,
-                    contentDescription = null,
-                    tint = accentColor,
-                    modifier = Modifier.size(18.dp)
-                )
-            }
-            Spacer(Modifier.width(12.dp))
-            Column(modifier = Modifier.weight(1f)) {
-                Text(
-                    text = title,
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    color = TextPrimary
-                )
-                Text(
-                    text = subtitle,
-                    fontSize = 11.sp,
-                    color = TextSecondary
-                )
-            }
-            Icon(
-                imageVector = Icons.Default.ChevronRight,
-                contentDescription = null,
-                tint = TextMuted,
-                modifier = Modifier.size(20.dp)
-            )
-        }
     }
 }

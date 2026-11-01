@@ -4,12 +4,12 @@ import com.example.localization.AppLanguage
 
 data class LocalizedContent(
     val en: String,
-    val bn: String = en,
-    val ur: String = en,
-    val hi: String = en,
-    val ar: String = en,
-    val fa_af: String = en,
-    val in_id: String = en
+    val bn: String,
+    val ur: String,
+    val hi: String,
+    val ar: String,
+    val fa_af: String,
+    val in_id: String
 ) {
     fun get(lang: AppLanguage): String = when (lang) {
         AppLanguage.ENGLISH -> en
@@ -24,18 +24,28 @@ data class LocalizedContent(
 
 fun localized(
     en: String,
-    bn: String = en,
-    ur: String = en,
-    hi: String = en,
-    ar: String = en,
-    fa_af: String = en,
-    in_id: String = en
-): LocalizedContent = LocalizedContent(en, bn, ur, hi, ar, fa_af, in_id)
+    bn: String,
+    ur: String,
+    hi: String,
+    ar: String,
+    fa_af: String,
+    in_id: String
+): LocalizedContent = LocalizedContent(
+    en = en,
+    bn = bn,
+    ur = ur,
+    hi = hi,
+    ar = ar,
+    fa_af = fa_af,
+    in_id = in_id
+)
 
 enum class TrackType(
     val id: String,
     val titleKey: String,
     val subtitleKey: String,
+    val shortTitleKey: String,
+    val tagKey: String,
     val iconName: String,
     val badgeColorHex: Long
 ) {
@@ -43,44 +53,54 @@ enum class TrackType(
         id = "track_smali",
         titleKey = "track_smali_title",
         subtitleKey = "track_smali_desc",
+        shortTitleKey = "track_short_smali",
+        tagKey = "track_tag_smali",
         iconName = "Terminal",
-        badgeColorHex = 0xFF00E5FF
+        badgeColorHex = 0xFF0A84FF
     ),
     ANDROID_DEV(
         id = "track_android",
         titleKey = "track_android_title",
         subtitleKey = "track_android_desc",
+        shortTitleKey = "track_short_android",
+        tagKey = "track_tag_android",
         iconName = "Android",
-        badgeColorHex = 0xFF10B981
+        badgeColorHex = 0xFF30D158
     ),
     JAVA(
         id = "track_java",
         titleKey = "track_java_title",
         subtitleKey = "track_java_desc",
+        shortTitleKey = "track_short_java",
+        tagKey = "track_tag_java",
         iconName = "Coffee",
-        badgeColorHex = 0xFFF59E0B
+        badgeColorHex = 0xFFFF9F0A
     ),
     KOTLIN(
         id = "track_kotlin",
         titleKey = "track_kotlin_title",
         subtitleKey = "track_kotlin_desc",
+        shortTitleKey = "track_short_kotlin",
+        tagKey = "track_tag_kotlin",
         iconName = "Code",
-        badgeColorHex = 0xFFA855F7
+        badgeColorHex = 0xFFBF5AF2
     ),
     PYTHON(
         id = "track_python",
         titleKey = "track_python_title",
         subtitleKey = "track_python_desc",
+        shortTitleKey = "track_short_python",
+        tagKey = "track_tag_python",
         iconName = "Memory",
-        badgeColorHex = 0xFF38BDF8
+        badgeColorHex = 0xFF32ADE6
     )
 }
 
-enum class LearningLevel(val id: Int, val titleKey: String, val descKey: String) {
-    BEGINNER(1, "level_1_title", "level_1_desc"),
-    INTERMEDIATE(2, "level_2_title", "level_2_desc"),
-    ADVANCED(3, "level_3_title", "level_3_desc"),
-    PRO_MODDING(4, "level_4_title", "level_4_desc")
+enum class LearningLevel(val id: Int, val titleKey: String) {
+    BEGINNER(1, "level_1_title"),
+    INTERMEDIATE(2, "level_2_title"),
+    ADVANCED(3, "level_3_title"),
+    PRO_MODDING(4, "level_4_title")
 }
 
 data class LessonSection(
@@ -94,27 +114,7 @@ data class LessonSection(
     val xmlCode: String? = null,
     val explanation: LocalizedContent? = null,
     val practicalExampleNote: LocalizedContent? = null
-) {
-    constructor(
-        title: String,
-        content: String,
-        javaCode: String? = null,
-        kotlinCode: String? = null,
-        smaliCode: String? = null,
-        explanation: String? = null
-    ) : this(
-        title = localized(title),
-        childAnalogy = null,
-        content = localized(content),
-        javaCode = javaCode,
-        kotlinCode = kotlinCode,
-        pythonCode = null,
-        smaliCode = smaliCode,
-        xmlCode = null,
-        explanation = if (explanation != null) localized(explanation) else null,
-        practicalExampleNote = null
-    )
-}
+)
 
 data class Lesson(
     val id: String,
@@ -125,56 +125,43 @@ data class Lesson(
     val estimatedMinutes: Int,
     val sections: List<LessonSection>,
     val quizQuestionIds: List<String> = emptyList()
-) {
-    constructor(
-        id: String,
-        level: LearningLevel,
-        titleKey: String,
-        subtitleKey: String,
-        estimatedMinutes: Int,
-        sections: List<LessonSection>,
-        quizQuestionIds: List<String> = emptyList(),
-        track: TrackType = TrackType.SMALI
-    ) : this(
-        id = id,
-        track = track,
-        level = level,
-        title = localized(titleKey),
-        subtitle = localized(subtitleKey),
-        estimatedMinutes = estimatedMinutes,
-        sections = sections,
-        quizQuestionIds = quizQuestionIds
-    )
-}
+)
 
 data class CodeComparison(
     val id: String,
-    val title: String,
-    val category: String,
+    val titleContent: LocalizedContent,
+    val categoryContent: LocalizedContent,
     val javaCode: String,
     val kotlinCode: String,
     val smaliCode: String,
     val breakdown: List<ComparisonBreakdownLine>,
-    val internalExecutionNote: String
-)
+    val internalExecutionContent: LocalizedContent
+) {
+    val title: String get() = titleContent.en
+    val category: String get() = categoryContent.en
+    val internalExecutionNote: String get() = internalExecutionContent.en
+}
 
 data class ComparisonBreakdownLine(
     val smaliInstruction: String,
     val registersUsed: String,
-    val purpose: String,
+    val purposeContent: LocalizedContent,
     val javaEquivalent: String
-)
+) {
+    val purpose: String get() = purposeContent.en
+}
 
-enum class InstructionCategory {
-    CONSTANTS,
-    MOVES,
-    ARITHMETIC,
-    BRANCHES,
-    INVOCATIONS,
-    OBJECTS_ARRAYS,
-    RETURNS,
-    FIELDS,
-    EXCEPTIONS
+enum class InstructionCategory(val labelKey: String) {
+    CONSTANTS("cat_CONSTANTS"),
+    MOVES("cat_MOVES"),
+    RETURNS("cat_RETURNS"),
+    FIELDS("cat_FIELDS"),
+    OBJECTS_ARRAYS("cat_OBJECTS_ARRAYS"),
+    BRANCHES("cat_BRANCHES"),
+    INVOCATIONS("cat_INVOCATIONS"),
+    ARITHMETIC("cat_ARITHMETIC"),
+    CONVERSIONS("cat_CONVERSIONS"),
+    EXCEPTIONS("cat_EXCEPTIONS")
 }
 
 data class SmaliInstruction(
@@ -184,11 +171,15 @@ data class SmaliInstruction(
     val syntax: String,
     val javaEquivalent: String,
     val kotlinEquivalent: String,
-    val purpose: String,
-    val detailedExplanation: String,
+    val purposeContent: LocalizedContent,
+    val detailedExplanationContent: LocalizedContent,
     val smaliExample: String,
-    val commonMistakes: String
-)
+    val commonMistakesContent: LocalizedContent
+) {
+    val purpose: String get() = purposeContent.en
+    val detailedExplanation: String get() = detailedExplanationContent.en
+    val commonMistakes: String get() = commonMistakesContent.en
+}
 
 data class SimulationStep(
     val stepIndex: Int,
@@ -196,37 +187,70 @@ data class SimulationStep(
     val changedRegister: String,
     val registerValue: String,
     val registersSnapshot: Map<String, String>,
-    val explanation: String
-)
+    val explanationContent: LocalizedContent
+) {
+    val explanation: String get() = explanationContent.en
+}
 
 data class RegisterSimulation(
     val id: String,
-    val title: String,
-    val description: String,
+    val titleContent: LocalizedContent,
+    val descriptionContent: LocalizedContent,
     val codeSnippet: String,
     val steps: List<SimulationStep>
-)
-
-enum class QuizDifficulty {
-    EASY, MEDIUM, HARD, EXPERT
+) {
+    val title: String get() = titleContent.en
+    val description: String get() = descriptionContent.en
 }
 
-enum class QuizType {
-    MULTIPLE_CHOICE,
-    FIND_ERROR,
-    PREDICT_OUTPUT,
-    REGISTER_TRACE
+enum class QuizDifficulty(val labelKey: String) {
+    EASY("diff_EASY"),
+    MEDIUM("diff_MEDIUM"),
+    HARD("diff_HARD"),
+    EXPERT("diff_EXPERT")
+}
+
+enum class QuizType(val labelKey: String) {
+    MULTIPLE_CHOICE("qtype_MULTIPLE_CHOICE"),
+    FIND_ERROR("qtype_FIND_ERROR"),
+    PREDICT_OUTPUT("qtype_PREDICT_OUTPUT"),
+    REGISTER_TRACE("qtype_REGISTER_TRACE")
 }
 
 data class QuizQuestion(
     val id: String,
     val lessonId: String?,
-    val question: String,
+    val questionContent: LocalizedContent,
     val codeSnippet: String? = null,
-    val options: List<String>,
+    val optionsContent: List<LocalizedContent>,
     val correctIndex: Int,
-    val explanation: String,
-    val whyIncorrect: String,
+    val explanationContent: LocalizedContent,
+    val whyIncorrectContent: LocalizedContent,
     val difficulty: QuizDifficulty,
     val type: QuizType
+) {
+    val question: String get() = questionContent.en
+    val options: List<String> get() = optionsContent.map { it.en }
+    val explanation: String get() = explanationContent.en
+    val whyIncorrect: String get() = whyIncorrectContent.en
+}
+
+data class SmaliCheatItem(
+    val symbol: String,
+    val javaType: String,
+    val title: LocalizedContent,
+    val detail: LocalizedContent,
+    val example: String
+)
+
+data class SmaliDecodedResult(
+    val rawInput: String,
+    val kind: LocalizedContent,
+    val flagsOrOpcode: String,
+    val ownerClass: String,
+    val memberName: String,
+    val parameters: List<String>,
+    val returnOrFieldType: String,
+    val registersUsed: String,
+    val plainSummary: LocalizedContent
 )

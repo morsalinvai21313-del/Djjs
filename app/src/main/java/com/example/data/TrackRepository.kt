@@ -8,641 +8,557 @@ import com.example.model.localized
 
 object TrackRepository {
 
-    val allLessons: List<Lesson> = listOf(
-        // =========================================================================
-        // TRACK 1: ANDROID DEV (বাটন ও অ্যাক্টিভিটি কানেক্ট করে অ্যাপ তৈরি)
-        // =========================================================================
+    val androidLessons: List<Lesson> = listOf(
         Lesson(
-            id = "and_dev_btn_click",
+            id = "and_01",
             track = TrackType.ANDROID_DEV,
             level = LearningLevel.BEGINNER,
             title = localized(
-                en = "1. Connecting a Button & Showing Toast Message",
-                bn = "১. বাটন কানেক্ট করা ও টোস্ট মেসেজ দেখানো (findViewById & Toast)"
+                en = "01. Connecting XML Buttons & Click Listeners",
+                bn = "০১. এক্সএমএল বাটন কানেকশন ও ক্লিক লিসেনার",
+                ur = "01. XML بٹن کنکشن اور کلک لسنر",
+                hi = "01. XML बटन कनेक्शन और क्लिक लिसनर",
+                ar = "01. ربط أزرار XML ومستمعات النقر",
+                fa_af = "۰۱. اتصال دکمه‌های XML و رویداد کلیک",
+                in_id = "01. Menghubungkan Tombol XML & Pendengar Klik"
             ),
             subtitle = localized(
-                en = "How to wire an XML button to Java/Kotlin and trigger a click action",
-                bn = "এক্সএমএল ডিজাইনের বাটন জাভা ও কোটলিনের সাথে কানেক্ট করে ক্লিকে কাজ করানোর নিয়ম"
-            ),
-            estimatedMinutes = 6,
-            sections = listOf(
-                LessonSection(
-                    title = localized(
-                        en = "How Buttons Work: The Doorbell Analogy",
-                        bn = "বাটন কীভাবে কাজ করে: দরজার কলিং বেলের মতো সহজ ব্যাখ্যা"
-                    ),
-                    childAnalogy = localized(
-                        en = "Think of an XML Button like a plastic doorbell on the wall, and the Java/Kotlin code like the electric bell inside your house. If you do not wire the plastic button to the bell using a wire (ID), pressing it does nothing! findViewById() is the wire that connects them.",
-                        bn = "মনে করুন, এক্সএমএল (XML) বাটনটি হলো আপনার ঘরের দরজার প্লাস্টিকের কলিং বেল, আর জাভা বা কোটলিন কোডটি হলো ঘরের ভেতরের বৈদ্যুতিক ঘণ্টার তার! আপনি যদি প্লাস্টিকের সুইচের সাথে ভেতরের ঘণ্টার তারকে আইডি (ID) দিয়ে কানেক্ট না করেন, তবে সুইচে চাপ দিলেও ঘণ্টা বাজবে না। findViewById হলো সেই কানেকশনের তার!"
-                    ),
-                    content = localized(
-                        en = "In Android development, follow these 3 golden steps:\n1. Create the button in activity_main.xml with android:id=\"@+id/btnSubmit\"\n2. In your Activity, find it with findViewById(R.id.btnSubmit)\n3. Attach an OnClickListener so your code runs when tapped!",
-                        bn = "অ্যান্ড্রয়েড অ্যাপে বাটন নিয়ে কাজ করার ৩টি মূল ধাপ রয়েছে:\n১. activity_main.xml ফাইলে বাটন তৈরি করে একটি ইউনিক আইডি দিন: android:id=\"@+id/btnSubmit\"\n২. অ্যাক্টিভিটি ফাইলে এসে সেই আইডি দিয়ে বাটনটিকে ধরুন: findViewById(R.id.btnSubmit)\n৩. setOnClickListener যুক্ত করুন যাতে ব্যবহারকারী ট্যাপ করলেই আপনার কোড কাজ করে!"
-                    ),
-                    xmlCode = """<!-- res/layout/activity_main.xml -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical">
-
-    <TextView
-        android:id="@+id/txtStatus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="বাটনে ক্লিক করুন!"
-        android:textSize="18sp" />
-
-    <Button
-        android:id="@+id/btnSubmit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="ক্লিক করুন" />
-</LinearLayout>""",
-                    javaCode = """// Java: MainActivity.java
-public class MainActivity extends AppCompatActivity {
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main); // এক্সএমএল লোড
-
-        Button btn = findViewById(R.id.btnSubmit);
-        TextView txt = findViewById(R.id.txtStatus);
-
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                txt.setText("বাটনে সফলভাবে ক্লিক হয়েছে! 🎉");
-                Toast.makeText(MainActivity.this, "স্বাগতম!", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-}""",
-                    kotlinCode = """// Kotlin: MainActivity.kt
-class MainActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
-        val btn: Button = findViewById(R.id.btnSubmit)
-        val txt: TextView = findViewById(R.id.txtStatus)
-
-        btn.setOnClickListener {
-            txt.text = "বাটনে সফলভাবে ক্লিক হয়েছে! 🎉"
-            Toast.makeText(this, "স্বাগতম!", Toast.LENGTH_SHORT).show()
-        }
-    }
-}""",
-                    practicalExampleNote = localized(
-                        en = "Toast is a quick popup alert that disappears after 2 seconds. Use Toast.LENGTH_LONG for 3.5 seconds.",
-                        bn = "Toast হলো ফোনের স্ক্রিনে নিচে ভেসে ওঠা একটি সংক্ষিপ্ত মেসেজ যা ২ সেকেন্ড পর একা একাই গায়েব হয়ে যায়।"
-                    )
-                )
-            )
-        ),
-        Lesson(
-            id = "and_dev_intent_switch",
-            track = TrackType.ANDROID_DEV,
-            level = LearningLevel.BEGINNER,
-            title = localized(
-                en = "2. Opening a New Screen (Switching Activities with Intent)",
-                bn = "২. এক পেজ থেকে অন্য পেজে যাওয়া (Switching Activities with Intent)"
-            ),
-            subtitle = localized(
-                en = "How to click a button and navigate from Screen 1 to Screen 2 with extra data",
-                bn = "একটি বাটনে ক্লিক করে প্রথম পেজ থেকে দ্বিতীয় পেজে যাওয়া এবং সাথে তথ্য পাঠানো"
-            ),
-            estimatedMinutes = 7,
-            sections = listOf(
-                LessonSection(
-                    title = localized(
-                        en = "What is an Intent? The Delivery Envelope Analogy",
-                        bn = "ইনটেন্ট (Intent) কী? চিঠি পাঠানো ও দরজা খোলার সহজ উপমা"
-                    ),
-                    childAnalogy = localized(
-                        en = "Imagine you want to go from the Living Room into the Bedroom. In Android, each room is an 'Activity'. To open the door to Room 2, you write an 'Intent' letter to the Android OS saying: 'Please take me from MainActivity to SecondActivity, and give this secret message to Room 2!'",
-                        bn = "মনে করুন, আপনি ড্রয়িং রুম থেকে বেডরুমে যেতে চান। অ্যান্ড্রয়েডে প্রতিটি রুমকে বলা হয় 'অ্যাক্টিভিটি' (Activity)। ড্রয়িং রুমের দরজা খুলে বেডরুমে যাওয়ার জন্য অ্যান্ড্রয়েড অপারেটিং সিস্টেমের কাছে একটি চিঠি লিখে পাঠাতে হয়, যাকে বলে 'Intent'। চিঠিতে আপনি লিখে দিতে পারেন: 'আমাকে সেকেন্ড অ্যাক্টিভিটিতে নিয়ে চলো এবং সাথে এই ডাটা নিয়ে যাও!'"
-                    ),
-                    content = localized(
-                        en = "1. Create SecondActivity in your app\n2. Declare it in AndroidManifest.xml: <activity android:name=\".SecondActivity\" />\n3. Create Intent and call startActivity(intent)!",
-                        bn = "১. প্রথমে প্রজেক্টে SecondActivity নামের নতুন ক্লাস ও লেআউট তৈরি করুন\n২. AndroidManifest.xml ফাইলে ঘোষণা দিন: <activity android:name=\".SecondActivity\" />\n৩. বাটনের ভেতরে Intent তৈরি করে startActivity(intent) কল করুন!"
-                    ),
-                    javaCode = """// Java: MainActivity.java -> SecondActivity
-Button btnNext = findViewById(R.id.btnGoNext);
-btnNext.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View v) {
-        Intent intent = new Intent(MainActivity.this, SecondActivity.class);
-        intent.putExtra("user_name", "মোরসালিন"); // ডাটা পাঠানো
-        startActivity(intent);
-    }
-});""",
-                    kotlinCode = """// Kotlin: MainActivity.kt -> SecondActivity
-val btnNext: Button = findViewById(R.id.btnGoNext)
-btnNext.setOnClickListener {
-    val intent = Intent(this, SecondActivity::class.java).apply {
-        putExtra("user_name", "মোরসালিন")
-    }
-    startActivity(intent)
-}""",
-                    xmlCode = """<!-- SecondActivity.java: ডাটা রিসিভ করা -->
-String name = getIntent().getStringExtra("user_name");
-// name পাবে "মোরসালিন"!""",
-                    practicalExampleNote = localized(
-                        en = "Always register every Activity in AndroidManifest.xml. If omitted, Android will throw ActivityNotFoundException!",
-                        bn = "মনে রাখবেন: নতুন যেকোনো অ্যাক্টিভিটি তৈরি করলে তা AndroidManifest.xml-এ ঘোষণা করতে হয়, না হলে অ্যাপ ক্র্যাশ করবে!"
-                    )
-                )
-            )
-        ),
-        Lesson(
-            id = "and_dev_edittext_input",
-            track = TrackType.ANDROID_DEV,
-            level = LearningLevel.BEGINNER,
-            title = localized(
-                en = "3. Reading User Input from EditText to TextView",
-                bn = "৩. ইনপুট বক্স থেকে লেখা পড়া ও টেক্সটভিউতে দেখানো (EditText to TextView)"
-            ),
-            subtitle = localized(
-                en = "Take user's name or number, validate it, and display a personalized greeting",
-                bn = "ইউজারের কাছ থেকে নাম বা নম্বর লিখে নিয়ে বাটনে চাপ দিলে তা স্ক্রিনে সুন্দরভাবে প্রদর্শন"
-            ),
-            estimatedMinutes = 6,
-            sections = listOf(
-                LessonSection(
-                    title = localized(
-                        en = "The Blank Blackboard & Chalk Analogy",
-                        bn = "খাতায় লিখে ব্ল্যাকবোর্ডে টানিয়ে দেওয়ার মতো সহজ ব্যাখ্যা"
-                    ),
-                    childAnalogy = localized(
-                        en = "EditText is like a blank notebook where the user types with their keyboard. When they tap 'Submit', your code reads the ink from the notebook and writes it in giant glowing letters on the Blackboard (TextView)!",
-                        bn = "EditText হলো একটি খালি খাতা যেখানে ইউজার তার কিবোর্ড দিয়ে কিছু লিখে। আর বাটন চাপার সাথে সাথে কোড খাতা থেকে লেখাটি পড়ে নিয়ে বড় ব্ল্যাকবোর্ডে (TextView) সুন্দরভাবে সাজিয়ে সবাইকে দেখায়!"
-                    ),
-                    content = localized(
-                        en = "Use input.getText().toString() to get text. Always check if the input is empty with input.isEmpty() before processing to avoid blank results!",
-                        bn = "লেখা পাওয়ার জন্য input.getText().toString() ব্যবহার করুন। ব্যবহারকারী কিছু না লিখে বাটন চাপলে এরর মেসেজ দেওয়ার জন্য if (name.isEmpty()) দিয়ে চেক করতে হয়।"
-                    ),
-                    xmlCode = """<EditText
-    android:id="@+id/etName"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:hint="আপনার নাম লিখুন..." />
-
-<Button
-    android:id="@+id/btnGreet"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="জমা দিন" />
-
-<TextView
-    android:id="@+id/tvWelcome"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:textSize="20sp" />""",
-                    kotlinCode = """val etName: EditText = findViewById(R.id.etName)
-val btnGreet: Button = findViewById(R.id.btnGreet)
-val tvWelcome: TextView = findViewById(R.id.tvWelcome)
-
-btnGreet.setOnClickListener {
-    val enteredName = etName.text.toString().trim()
-    if (enteredName.isEmpty()) {
-        etName.error = "অনুগ্রহ করে আপনার নাম লিখুন!"
-    } else {
-        tvWelcome.text = "স্বাগতম, ${'$'}enteredName! শুভ দিন! 🌟"
-    }
-}"""
-                )
-            )
-        ),
-        Lesson(
-            id = "and_dev_lifecycle",
-            track = TrackType.ANDROID_DEV,
-            level = LearningLevel.INTERMEDIATE,
-            title = localized(
-                en = "4. The Activity Lifecycle: From Birth to Sleep",
-                bn = "৪. অ্যাক্টিভিটি লাইফসাইকেল: জন্ম থেকে ঘুম (onCreate to onDestroy)"
-            ),
-            subtitle = localized(
-                en = "Understanding what happens when you rotate phone or press the home button",
-                bn = "ফোন রোটেট করলে বা হোম বাটন চাপলে অ্যাপের ভেতরে কীভাবে জীবনচক্র কাজ করে"
+                en = "Link screen buttons to Kotlin/Java code and inspect the compiled Smali OnClickListener.",
+                bn = "স্ক্রিনের বাটনকে কোটলিন/জাভা কোডের সাথে যুক্ত করুন এবং কম্পাইল হওয়া স্মালি কোড দেখুন।",
+                ur = "اسکرین کے بٹن کو کوڈ سے جوڑیں اور اس کا سمالی بائٹ کوڈ دیکھیں۔",
+                hi = "स्क्रीन बटन को कोड से जोड़ें और उसका संकलित स्माली बाइटकोड देखें।",
+                ar = "اربط أزرار الشاشة بالكود البرمجي وتفحص شيفرة سمالي الناتجة.",
+                fa_af = "اتصال دکمه‌های صفحه به کد برنامه و مشاهده خروجی سمالی آن.",
+                in_id = "Hubungkan tombol layar ke kode dan amati bytecode Smali-nya."
             ),
             estimatedMinutes = 8,
             sections = listOf(
                 LessonSection(
                     title = localized(
-                        en = "The Human Day Routine Analogy",
-                        bn = "মানুষের প্রতিদিনের ঘুম থেকে ওঠার মতো সহজ উপমা"
+                        en = "From XML ID to Toast & Smali Bytecode",
+                        bn = "XML আইডি থেকে Toast মেসেজ ও স্মালি বাইটকোড",
+                        ur = "XML آئی ڈی سے ٹوسٹ پیغام اور سمالی کوڈ تک",
+                        hi = "XML आईडी से Toast संदेश और स्माली बाइटकोड तक",
+                        ar = "من معرف XML إلى رسالة Toast وشيفرة سمالي",
+                        fa_af = "از شناسه XML تا پیام Toast و کد سمالی",
+                        in_id = "Dari ID XML ke Pesan Toast & Bytecode Smali"
                     ),
                     childAnalogy = localized(
-                        en = "Just like humans: You wake up in the morning (onCreate), stand up on your feet (onStart), start playing with friends (onResume), take a quick pause when someone calls (onPause), walk away (onStop), and go to sleep at night (onDestroy).",
-                        bn = "ঠিক মানুষের দৈনন্দিন নিয়মের মতো: সকালে ঘুম থেকে বিছানা ছেড়ে ওঠা (onCreate), ঘরের দরজায় এসে দাঁড়ানো (onStart), মাঠে বন্ধুদের সাথে হাত নেড়ে খেলাধুলা করা (onResume), কেউ ডাকলে খেলার মাঝে ক্ষণিক থামা (onPause), মাঠ থেকে ঘরে ফিরে যাওয়া (onStop), এবং রাতে শান্তিতে ঘুমাতে যাওয়া (onDestroy)।"
+                        en = "XML is the doorbell on the wall; `setOnClickListener` is the wire connecting that button to the chime inside the house!",
+                        bn = "XML হলো দেয়ালে লাগানো কলিং বেলের সুইচ, আর `setOnClickListener` হলো ঘরের ভেতরের ঘণ্টার সাথে তারের সংযোগ!",
+                        ur = "XML دیوار پر لگا گھنٹی کا بٹن ہے اور `setOnClickListener` وہ تار ہے جو اندر گھنٹی بجاتی ہے!",
+                        hi = "XML दीवार पर लगा घंटी का बटन है और `setOnClickListener` वह तार है जो अंदर घंटी बजाता है!",
+                        ar = "ملف XML هو زر الجرس على الحائط، و `setOnClickListener` هو السلك الموصل للجرس بالداخل!",
+                        fa_af = "فایل XML دکمه زنگ روی دیوار است و `setOnClickListener` سیمی است که زنگ داخل خانه را به صدا درمی‌آورد!",
+                        in_id = "XML adalah tombol bel di dinding, sedangkan `setOnClickListener` adalah kabel penghubungnya!"
                     ),
                     content = localized(
-                        en = "• onCreate(): Sets up XML layout & views\n• onStart(): Screen becomes visible\n• onResume(): App is interactive\n• onPause(): Dialog or call interrupts\n• onStop(): Screen is hidden\n• onDestroy(): Activity destroyed",
-                        bn = "• onCreate(): যখন প্রথম অ্যাক্টিভিটি তৈরি হয়। এখানে লেআউট সেট ও বাটন কানেক্ট করতে হয়।\n• onStart(): স্ক্রিনে অ্যাপ দৃশ্যমান হতে শুরু করে।\n• onResume(): স্ক্রিন সচল এবং ইউজার বাটনে ক্লিক করতে পারেন।\n• onPause(): অন্য কিছু সামনে এলে সাময়িক বিরতি নেয়।\n• onStop(): অ্যাপ যখন ব্যাকগ্রাউন্ডে পুরোপুরি লুকিয়ে যায়।\n• onDestroy(): অ্যাপ মেমোরি থেকে সম্পূর্ণ খালাস হয়ে যায়।"
+                        en = "Android assigns every `@+id/...` an integer resource ID (`0x7f08...`). `findViewById` fetches the `Button` instance, and `setOnClickListener` attaches a callback.",
+                        bn = "অ্যান্ড্রয়েড প্রতিটি `@+id/...`-কে একটি হেক্সাডেসিমাল সংখ্যা দেয় (`0x7f08...`)। `findViewById` সেই বাটনটি খুঁজে আনে এবং `setOnClickListener` ট্যাপ করার কাজটি যুক্ত করে।",
+                        ur = "اینڈرائیڈ ہر `@+id/...` کو ایک ہیکس نمبر دیتا ہے۔ `findViewById` بٹن تلاش کرتا ہے اور `setOnClickListener` کلک ایکشن جوڑتا ہے۔",
+                        hi = "एंड्रॉइड हर `@+id/...` को एक हेक्स नंबर देता है। `findViewById` बटन ढूंढता है और `setOnClickListener` क्लिक एक्शन जोड़ता है।",
+                        ar = "يمنح أندرويد كل معرف رقماً سداسياً، وتجلب `findViewById` الزر بينما تربط `setOnClickListener` الحدث.",
+                        fa_af = "اندروید به هر شناسه یک عدد هگز اختصاص می‌دهد؛ `findViewById` دکمه را یافته و `setOnClickListener` عملیات کلیک را وصل می‌کند.",
+                        in_id = "Android memberi setiap `@+id/...` angka heksadesimal. `findViewById` mengambil tombol dan `setOnClickListener` memasang aksi."
                     ),
-                    kotlinCode = """class MainActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        println("অ্যাপ জেগে উঠেছে!")
-    }
-
-    override fun onResume() {
-        super.onResume()
-        println("ব্যবহারকারী স্ক্রিনে হাত দিয়ে কাজ করছেন!")
-    }
-
-    override fun onPause() {
-        super.onPause()
-        println("অ্যাপে সাময়িক বিরতি!")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        println("অ্যাপ পুরোপুরি বন্ধ হয়ে গেল!")
-    }
-}"""
+                    xmlCode = """<Button
+    android:id="@+id/btnAction"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="Verify Account" />""",
+                    kotlinCode = """val btn = findViewById<Button>(R.id.btnAction)
+btn.setOnClickListener {
+    Toast.makeText(this, "Verified!", Toast.LENGTH_SHORT).show()
+}""",
+                    smaliCode = """const v0, 0x7f080042
+invoke-virtual {p0, v0}, LMainActivity;->findViewById(I)Landroid/view/View;
+move-result-object v0
+check-cast v0, Landroid/widget/Button;"""
                 )
             )
         ),
         Lesson(
-            id = "and_dev_alert_dialog",
+            id = "and_02",
             track = TrackType.ANDROID_DEV,
-            level = LearningLevel.INTERMEDIATE,
+            level = LearningLevel.BEGINNER,
             title = localized(
-                en = "5. Popups & Confirmation Dialogs (AlertDialog)",
-                bn = "৫. পপআপ ও অ্যালার্ট ডায়ালগ (AlertDialog Confirmation)"
+                en = "02. Navigating Screens with Explicit Intents",
+                bn = "০২. এক স্ক্রিন থেকে অন্য স্ক্রিনে যাওয়া (Intent)",
+                ur = "02. ایک اسکرین سے دوسری اسکرین پر جانا (Intent)",
+                hi = "02. एक स्क्रीन से दूसरी स्क्रीन पर जाना (Intent)",
+                ar = "02. الانتقال بين الشاشات باستخدام Intent",
+                fa_af = "۰۲. جابه‌جایی بین صفحات با استفاده از Intent",
+                in_id = "02. Berpindah Layar Menggunakan Explicit Intent"
             ),
             subtitle = localized(
-                en = "Ask 'Are you sure you want to delete or exit?' with Yes/No buttons",
-                bn = "কোনো ফাইল ডিলিট বা অ্যাপ বন্ধ করার আগে 'হ্যাঁ' বা 'না' ডায়ালগ বক্স তৈরি"
+                en = "Pass extras safely between Activities using Intent and putExtra.",
+                bn = "Intent এবং putExtra ব্যবহার করে ডাটা সহ নতুন স্ক্রিন চালু করার নিয়ম।",
+                ur = "Intent اور putExtra کے ذریعے ڈیٹا کے ساتھ نئی اسکرین کھولنا۔",
+                hi = "Intent और putExtra के साथ डेटा भेजकर नई स्क्रीन खोलना।",
+                ar = "تمرير البيانات بأمان بين الواجهات عبر Intent و putExtra.",
+                fa_af = "ارسال داده بین صفحات برنامه با استفاده از Intent و putExtra.",
+                in_id = "Kirim data antar Activity dengan aman memakai Intent dan putExtra."
             ),
-            estimatedMinutes = 7,
+            estimatedMinutes = 8,
             sections = listOf(
                 LessonSection(
                     title = localized(
-                        en = "The Security Gatekeeper Analogy",
-                        bn = "গেটকিপারের অনুমতির মতো সহজ ব্যাখ্যা"
-                    ),
-                    childAnalogy = localized(
-                        en = "AlertDialog is like a security guard stepping in front of you asking: 'Stop! Are you 100% sure you want to delete your progress?' You must tap Yes to proceed or No to stay safe.",
-                        bn = "অ্যালার্ট ডায়ালগ হলো দরজার দারোয়ানের মতো, যে সামনে দাঁড়িয়ে জিজ্ঞাসা করে: 'থামুন! আপনি কি সত্যিই এই কাজ করতে চান?' আপনি 'হ্যাঁ' চাপলে কাজটি হবে, আর 'না' চাপলে কোনো ক্ষতি ছাড়াই ডায়ালগ বন্ধ হয়ে যাবে।"
+                        en = "Creating & Launching an Activity Intent",
+                        bn = "Intent তৈরি এবং নতুন Activity চালু করা",
+                        ur = "Intent بنانا اور نئی Activity چلانا",
+                        hi = "Intent बनाना और नई Activity शुरू करना",
+                        ar = "إنشاء وإطلاق Intent لفتح شاشة جديدة",
+                        fa_af = "ساخت و اجرای Intent برای باز کردن صفحه جدید",
+                        in_id = "Membuat & Menjalankan Intent Activity"
                     ),
                     content = localized(
-                        en = "Use AlertDialog.Builder(this) to create title, message, positive button, and negative button.",
-                        bn = "অ্যান্ড্রয়েডে AlertDialog.Builder(this) ব্যবহার করে টাইটেল, মেসেজ এবং ইতিবাচক ও নেতিবাচক বাটন সেট করতে হয়।"
+                        en = "An `Intent` is a message envelope telling Android which target `Activity` class to open and carrying key-value `Bundle` extras.",
+                        bn = "`Intent` হলো একটি ডিজিটাল খাম—যার ওপরে গন্তব্য স্ক্রিনের নাম লেখা থাকে এবং ভেতরে `putExtra` দিয়ে যেকোনো তথ্য ভরে পাঠানো যায়।",
+                        ur = "`Intent` ایک ڈیجیٹل لفافہ ہے جس پر اگلی اسکرین کا نام درج ہوتا ہے اور اندر `putExtra` کے ذریعے معلومات رکھی جاتی ہیں۔",
+                        hi = "`Intent` एक डिजिटल लिफ़ाफ़ा है जिस पर अगली स्क्रीन का नाम होता है और भीतर `putExtra` से डेटा रखा जाता है।",
+                        ar = "يمثل `Intent` ظرف رسالة يحدد الشاشة الهدف ويحمل البيانات الإضافية عبر `putExtra`.",
+                        fa_af = "`Intent` مانند پاکت نامه‌ای است که مقصد صفحه بعدی را مشخص کرده و داده‌ها را با `putExtra` منتقل می‌کند.",
+                        in_id = "`Intent` adalah amplop pesan yang memberi tahu Android kelas `Activity` tujuan beserta data `putExtra`."
                     ),
-                    kotlinCode = """val builder = AlertDialog.Builder(this)
-builder.setTitle("সতর্কবার্তা!")
-builder.setMessage("আপনি কি নিশ্চিত যে ডেটা মুছে ফেলতে চান?")
-
-builder.setPositiveButton("হ্যাঁ, ডিলিট করুন") { dialog, which ->
-    Toast.makeText(this, "সফলভাবে মুছে ফেলা হয়েছে!", Toast.LENGTH_SHORT).show()
-}
-
-builder.setNegativeButton("না, বাতিল") { dialog, which ->
-    dialog.dismiss()
-}
-
-val alertDialog = builder.create()
-alertDialog.show()"""
+                    kotlinCode = """val intent = Intent(this, ProfileActivity::class.java)
+intent.putExtra("USER_NAME", "Morsalin")
+startActivity(intent)""",
+                    smaliCode = """new-instance v0, Landroid/content/Intent;
+const-class v1, Lcom/example/ProfileActivity;
+invoke-direct {v0, p0, v1}, Landroid/content/Intent;-><init>(Landroid/content/Context;Ljava/lang/Class;)V
+const-string v1, "USER_NAME"
+const-string v2, "Morsalin"
+invoke-virtual {v0, v1, v2}, Landroid/content/Intent;->putExtra(Ljava/lang/String;Ljava/lang/String;)Landroid/content/Intent;
+invoke-virtual {p0, v0}, LMainActivity;->startActivity(Landroid/content/Intent;)V"""
                 )
             )
         ),
         Lesson(
-            id = "and_dev_shared_prefs",
+            id = "and_03",
             track = TrackType.ANDROID_DEV,
             level = LearningLevel.INTERMEDIATE,
             title = localized(
-                en = "6. Saving Data Permanently (SharedPreferences)",
-                bn = "৬. অ্যাপ বন্ধ করলেও ডাটা সেভ রাখা (SharedPreferences Storage)"
+                en = "03. Activity Lifecycle (onCreate to onDestroy)",
+                bn = "০৩. অ্যাক্টিভিটি লাইফসাইকেল (onCreate থেকে onDestroy)",
+                ur = "03. ایکٹیویٹی لائف سائیکل (onCreate سے onDestroy)",
+                hi = "03. एक्टिविटी लाइफसाइकिल (onCreate से onDestroy)",
+                ar = "03. دورة حياة الواجهة (من onCreate إلى onDestroy)",
+                fa_af = "۰۳. چرخه حیات اکتیویتی (از onCreate تا onDestroy)",
+                in_id = "03. Siklus Hidup Activity (onCreate hingga onDestroy)"
             ),
             subtitle = localized(
-                en = "Store login state, score, dark mode toggle, and load it on next launch",
-                bn = "ইউজারনেম, গেম স্কোর বা ডার্ক মুড সেভ রাখা যাতে অ্যাপ কেটে দিলেও তা হারিয়ে না যায়"
-            ),
-            estimatedMinutes = 7,
-            sections = listOf(
-                LessonSection(
-                    title = localized(
-                        en = "The Secret Pocket Notebook Analogy",
-                        bn = "পকেটের ডায়েরিতে পেন্সিল দিয়ে লিখে রাখার মতো সহজ উপমা"
-                    ),
-                    childAnalogy = localized(
-                        en = "When you close your app, RAM forgets everything! SharedPreferences is like a tiny pocket notebook stored on phone's hard drive where you write: 'HighScore = 250'. Next time you open the app, it reads the notebook immediately!",
-                        bn = "অ্যাপ কেটে দিলে র‍্যামের (RAM) সব তথ্য হারিয়ে যায়। SharedPreferences হলো ফোনের হার্ডড্রাইভে থাকা একটি জাদুকরি ছোট ডায়েরি, যেখানে আপনি লিখে রাখেন: 'HighScore = 250'। পরের বার অ্যাপ চালু করলে এটি ডায়েরি খুলে মুহূর্তেই আগের ডাটা পড়ে নেয়!"
-                    ),
-                    content = localized(
-                        en = "Save with prefs.edit().putString().apply(). Read with prefs.getString().",
-                        bn = "ডাটা সেভ করতে prefs.edit().putString(\"name\", value).apply() এবং ডাটা পড়তে prefs.getString(\"name\", \"ডিফল্ট\") ব্যবহার করুন।"
-                    ),
-                    kotlinCode = """// ১. ডাটা সেভ করা
-val prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE)
-prefs.edit().putString("username", "মোরসালিন").apply()
-
-// ২. ডাটা পড়া
-val savedUser = prefs.getString("username", "কোনো নাম নেই")
-println("সেভ করা নাম: ${'$'}savedUser")"""
-                )
-            )
-        ),
-        Lesson(
-            id = "and_dev_recyclerview",
-            track = TrackType.ANDROID_DEV,
-            level = LearningLevel.ADVANCED,
-            title = localized(
-                en = "7. Dynamic Scrolling Lists (RecyclerView & Cards)",
-                bn = "৭. স্ক্রলযোগ্য কার্ড লিস্ট তৈরি (RecyclerView & Custom Adapter)"
-            ),
-            subtitle = localized(
-                en = "Display thousands of items smoothly without lagging the device memory",
-                bn = "হাজার হাজার পোস্ট বা মেসেজের লিস্ট ফোন হ্যাং না করিয়ে মাখনের মতো স্ক্রল করানো"
+                en = "Understand why super.onCreate is mandatory in both Kotlin and Smali.",
+                bn = "অ্যাপ চালু, মিনিমাইজ ও বন্ধ হওয়ার ধাপ এবং কেন super.onCreate না দিলে অ্যাপ ক্র্যাশ করে।",
+                ur = "ایپ کے کھلنے، پس منظر میں جانے اور بند ہونے کے مراحل اور super.onCreate کی اہمیت۔",
+                hi = "ऐप खुलने, बैकग्राउंड में जाने और बंद होने के चरण तथा super.onCreate की अनिवार्यता।",
+                ar = "افهم مراحل عمل الشاشة ولماذا يُعد استدعاء super.onCreate إلزامياً.",
+                fa_af = "درک مراحل باز شدن، توقف و بسته شدن صفحه و الزام فراخوانی super.onCreate.",
+                in_id = "Pahami tahapan hidup layar dan mengapa super.onCreate wajib dipanggil."
             ),
             estimatedMinutes = 9,
             sections = listOf(
                 LessonSection(
                     title = localized(
-                        en = "The Ferris Wheel Analogy",
-                        bn = "নাগরদোলার চেয়ারের মতো রিসাইকেল হওয়ার সহজ ব্যাখ্যা"
-                    ),
-                    childAnalogy = localized(
-                        en = "If you have 1,000 photos, creating 1,000 views crashes your phone! A Ferris wheel only has 10 seats that spin around. As items scroll off screen, RecyclerView re-uses the same view for the new item. Zero wasted memory!",
-                        bn = "ফোনে ১০০০ আইটেম থাকলে ১০০০টি আলাদা ভিউ বানালে ফোন হ্যাং করবে! RecyclerView নাগরদোলার মতো মাত্র ১০-১২টি ভিউ তৈরি করে। ওপরের আইটেম যখন স্ক্রিনের বাইরে চলে যায়, সেই একই কার্ডকে নিচে এনে নতুন ডাটা বসিয়ে দেয়। ফলে কোনো মেমোরি নষ্ট হয় না!"
-                    ),
-                    content = localized(
-                        en = "Components:\n1. RecyclerView in XML\n2. item_card.xml layout\n3. Adapter & ViewHolder class\n4. Set LayoutManager (LinearLayoutManager)",
-                        bn = "প্রয়োজনীয় উপাদান:\n১. মূল এক্সএমএলে RecyclerView যোগ করা\n২. একটি কার্ডের ডিজাইন item_card.xml\n৩. Adapter ও ViewHolder ক্লাস তৈরি করে লিস্ট ডাটা বাইন্ড করা\n৪. recyclerView.layoutManager = LinearLayoutManager(this)"
-                    ),
-                    kotlinCode = """class MessageAdapter(private val list: List<String>) : 
-    RecyclerView.Adapter<MessageAdapter.MyViewHolder>() {
-
-    class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val tvText: TextView = view.findViewById(R.id.tvItemText)
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_card, parent, false)
-        return MyViewHolder(view)
-    }
-
-    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.tvText.text = list[position]
-    }
-
-    override fun getItemCount() = list.size
-}"""
-                )
-            )
-        ),
-        Lesson(
-            id = "and_dev_webview",
-            track = TrackType.ANDROID_DEV,
-            level = LearningLevel.INTERMEDIATE,
-            title = localized(
-                en = "8. Showing Websites Inside App (WebView Integration)",
-                bn = "৮. অ্যাপের ভেতরে ওয়েবসাইট ব্রাউজ করা (WebView Integration)"
-            ),
-            subtitle = localized(
-                en = "Load any URL or local HTML page directly inside your Android Activity",
-                bn = "ব্রাউজার ছাড়া সরাসরি অ্যাপের স্ক্রিনে যেকোনো ওয়েবসাইট বা এইচটিএমএল পেজ ওপেন করা"
-            ),
-            estimatedMinutes = 6,
-            sections = listOf(
-                LessonSection(
-                    title = localized(
-                        en = "The Magic Glass Window Analogy",
-                        bn = "দেয়ালে কাঁচের জানালা বসানোর মতো সহজ উপমা"
-                    ),
-                    childAnalogy = localized(
-                        en = "WebView is like cutting a square window in your living room wall looking directly into the Internet! Instead of opening Chrome, the website appears right inside your app.",
-                        bn = "WebView হলো আপনার অ্যাপের স্ক্রিনের ভেতরে একটি কাঁচের জানালার মতো। ব্যবহারকারীকে ক্রোম ব্রাউজারে না পাঠিয়ে সরাসরি অ্যাপের ভেতরেই সম্পূর্ণ ওয়েবসাইট দেখিয়ে দেওয়া যায়!"
+                        en = "Lifecycle Callbacks & invoke-super",
+                        bn = "লাইফসাইকেল ধাপসমূহ ও invoke-super এর ভূমিকা",
+                        ur = "لائف سائیکل کال بیکس اور invoke-super کا کردار",
+                        hi = "लाइफसाइकिल कॉलबैक और invoke-super की भूमिका",
+                        ar = "دوال دورة الحياة وتعليمة invoke-super",
+                        fa_af = "متدهای چرخه حیات و نقش دستور invoke-super",
+                        in_id = "Callback Siklus Hidup & Peran invoke-super"
                     ),
                     content = localized(
-                        en = "1. Add <uses-permission android:name=\"android.permission.INTERNET\" /> in manifest\n2. Add <WebView> in XML\n3. Enable JavaScript and loadUrl()",
-                        bn = "১. AndroidManifest.xml-এ ইন্টারনেট পারমিশন দিন\n২. এক্সএমএলে WebView যোগ করুন\n৩. জাভায় webView.getSettings().setJavaScriptEnabled(true) দিয়ে URL লোড করুন!"
+                        en = "Android triggers `onCreate` → `onStart` → `onResume` when opening a screen, and `onPause` → `onStop` → `onDestroy` when leaving. Omitting `invoke-super` inside `onCreate` throws `SuperNotCalledException`!",
+                        bn = "স্ক্রিন চালু হলে ক্রমান্বয়ে `onCreate` → `onStart` → `onResume` চলে, আর বের হয়ে গেলে `onPause` → `onStop` → `onDestroy` চলে। স্মালিতে `onCreate`-এর শুরুতে `invoke-super` মুছে ফেললে সাথে সাথে অ্যাপ ক্র্যাশ করে!",
+                        ur = "اسکرین کھلتے وقت `onCreate` → `onStart` → `onResume` چلتا ہے۔ اگر `invoke-super` ہٹا دیا جائے تو ایپ فوراً کریش ہو جاتی ہے!",
+                        hi = "स्क्रीन खुलते समय `onCreate` → `onStart` → `onResume` चलता है। यदि `invoke-super` हटा दिया जाए तो तुरंत क्रैश होता है!",
+                        ar = "يستدعي النظام `onCreate` ثم `onStart` ثم `onResume`، وحذف `invoke-super` يؤدي إلى انهيار فوري للتطبيق.",
+                        fa_af = "هنگام باز شدن صفحه به ترتیب `onCreate`، `onStart` و `onResume` اجرا می‌شوند و حذف `invoke-super` باعث کرش فوری می‌شود.",
+                        in_id = "Android memanggil `onCreate` → `onStart` → `onResume`. Menghapus `invoke-super` akan memicu `SuperNotCalledException`."
                     ),
-                    kotlinCode = """val webView: WebView = findViewById(R.id.myWebView)
-webView.settings.javaScriptEnabled = true
-webView.webViewClient = WebViewClient() // অ্যাপের ভেতরেই ওপেন রাখবে
-webView.loadUrl("https://google.com")"""
-                )
-            )
-        ),
-
-        // =========================================================================
-        // TRACK 2: SMALI (জিরো থেকে বাচ্চাদের মতো বোঝানো)
-        // =========================================================================
-        Lesson(
-            id = "smali_zero_1",
-            track = TrackType.SMALI,
-            level = LearningLevel.BEGINNER,
-            title = localized(
-                en = "Smali 101: The Mystery of Dalvik Registers (Toy Boxes)",
-                bn = "স্মালি ১০১: খেলনার বাক্সের রহস্য (রেজিস্টার v0, v1, p0)"
-            ),
-            subtitle = localized(
-                en = "Understanding v0, v1, and p0 like putting blocks into numbered toy boxes",
-                bn = "রেজিস্টারকে তাকের ওপর সাজানো খেলনার বাক্সের মতো বুঝে স্মালি কোড জিরো থেকে শেখা"
-            ),
-            estimatedMinutes = 6,
-            sections = listOf(
-                LessonSection(
-                    title = localized(
-                        en = "1. What is a Register? Imagine a Row of Toy Boxes!",
-                        bn = "১. রেজিস্টার কী? তাকের ওপর সাজানো খেলনার বাক্সের সহজ ব্যাখ্যা"
-                    ),
-                    childAnalogy = localized(
-                        en = "Imagine your room has a shelf with small numbered boxes: v0, v1, v2... Your robot assistant can only hold items if it puts them into one of these boxes. If you want the robot to calculate 5 + 3, it puts 5 into box v0, puts 3 into box v1, and pours both together into box v0!",
-                        bn = "মনে করুন, আপনার পড়ার ঘরের তাকে কয়েকটি লেবেল লাগানো ছোট বাক্স রয়েছে: v0, v1, v2... আপনার রোবট সহকারী কোনো সংখ্যা মনে রাখতে হলে এই বাক্সে এনে রাখে। আপনি যদি রোবটকে ৫ আর ৩ যোগ করতে বলেন, সে v0 বাক্সে ৫ রাখবে, v1 বাক্সে ৩ রাখবে, তারপর দুটিকে যোগ করে রেজাল্ট v0 বাক্সে জমা রাখবে!"
-                    ),
-                    content = localized(
-                        en = "In Android Dalvik bytecode, registers are 32-bit workspace slots declared with .locals.",
-                        bn = "অ্যান্ড্রয়েড ডালভিক ভার্চুয়াল মেশিনে রেজিস্টারগুলো হলো দ্রুততম মেমোরি স্লট। একটি মেথডের শুরুতে .locals 2 লিখে বলে দেওয়া হয় এই মেথডে ২টি বাক্স (v0 ও v1) দরকার হবে।"
-                    ),
-                    smaliCode = """.method public static calculate()I
-    .locals 2    # আমরা ২টি বাক্স নিলাম: v0 এবং v1
-
-    const/4 v0, 0x5     # v0 বাক্সে ৫ রাখলাম
-    const/4 v1, 0x3     # v1 বাক্সে ৩ রাখলাম
-    add-int v0, v0, v1  # দুটির যোগফল ৮ করে v0 তে রাখলাম
-
-    return v0           # রেজাল্ট ফেরত দিলাম!
+                    smaliCode = """.method protected onCreate(Landroid/os/Bundle;)V
+    .locals 1
+    invoke-super {p0, p1}, Landroidx/appcompat/app/AppCompatActivity;->onCreate(Landroid/os/Bundle;)V
+    const v0, 0x7f0b001c
+    invoke-virtual {p0, v0}, LMainActivity;->setContentView(I)V
+    return-void
 .end method"""
                 )
             )
         ),
         Lesson(
-            id = "smali_zero_2",
-            track = TrackType.SMALI,
+            id = "and_04",
+            track = TrackType.ANDROID_DEV,
             level = LearningLevel.INTERMEDIATE,
             title = localized(
-                en = "Smali 102: The Traffic Light (if-eqz and Branching)",
-                bn = "স্মালি ১০২: ট্র্যাফিক লাইট ও ব্রাঞ্চিং (if-eqz এবং জাম্পিং)"
+                en = "04. Saving Preferences Locally (SharedPreferences)",
+                bn = "০৪. ফোনে স্থায়ীভাবে ডাটা সেভ করা (SharedPreferences)",
+                ur = "04. فون میں مستقل ڈیٹا محفوظ کرنا (SharedPreferences)",
+                hi = "04. फ़ोन में स्थायी डेटा सहेजना (SharedPreferences)",
+                ar = "04. حفظ الإعدادات محلياً (SharedPreferences)",
+                fa_af = "۰۴. ذخیره‌سازی دائمی تنظیمات در گوشی (SharedPreferences)",
+                in_id = "04. Menyimpan Data Lokal (SharedPreferences)"
             ),
             subtitle = localized(
-                en = "How Android makes decisions and jumps across labels like hopscotch",
-                bn = "শর্ত পূরণ হলে বা না হলে স্মালি কোড কীভাবে লাফ দিয়ে অন্য লাইনে চলে যায়"
+                en = "Store theme, language, and flags persistently across app restarts.",
+                bn = "অ্যাপ বন্ধ করলেও যেন থিম, ভাষা ও সেটিংস মুছে না যায় তার পূর্ণাঙ্গ পদ্ধতি।",
+                ur = "ایپ بند ہونے کے بعد بھی زبان، تھیم اور سیٹنگز محفوظ رکھنے کا طریقہ۔",
+                hi = "ऐप बंद होने के बाद भी थीम, भाषा और सेटिंग्स सुरक्षित रखने की विधि।",
+                ar = "احفظ اللغة والمظهر والخيارات بحيث تبقى بعد إعادة تشغيل التطبيق.",
+                fa_af = "ذخیره زبان، پوسته و تنظیمات به شکلی که پس از بستن برنامه باقی بماند.",
+                in_id = "Simpan tema, bahasa, dan opsi agar tetap bertahan saat aplikasi dibuka ulang."
+            ),
+            estimatedMinutes = 8,
+            sections = listOf(
+                LessonSection(
+                    title = localized(
+                        en = "Key-Value XML Storage Under the Hood",
+                        bn = "কী-ভ্যালু আকারে ডাটা সেভ ও রিড করার নিয়ম",
+                        ur = "کی-ویلیو کی صورت میں ڈیٹا لکھنا اور پڑھنا",
+                        hi = "की-वैल्यू के रूप में डेटा सहेजना और पढ़ना",
+                        ar = "تخزين واسترجاع أزواج المفتاح والقيمة",
+                        fa_af = "ذخیره و بازیابی داده‌ها به صورت کلید-مقدار",
+                        in_id = "Menyimpan & Membaca Pasangan Kunci-Nilai"
+                    ),
+                    content = localized(
+                        en = "`SharedPreferences` writes lightweight XML files inside `/data/data/<package>/shared_prefs/`. Always call `.apply()` to commit asynchronously without freezing the UI thread.",
+                        bn = "`SharedPreferences` অ্যাপের প্রাইভেট ফোল্ডারে ছোট XML ফাইলে ডাটা সেভ করে। UI যেন আটকে না যায় তাই সবসময় `.apply()` ব্যবহার করা উচিত।",
+                        ur = "`SharedPreferences` ایپ کے نجی فولڈر میں چھوٹی XML فائل بناتا ہے۔ بغیر رکاوٹ محفوظ کرنے کے لیے `.apply()` استعمال کریں۔",
+                        hi = "`SharedPreferences` ऐप के निजी फ़ोल्डर में छोटी XML फ़ाइल सहेजता है। बिना रुकावट सहेजने के लिए `.apply()` का उपयोग करें।",
+                        ar = "تحفظ `SharedPreferences` البيانات في ملف XML خاص بالتطبيق، ويُفضّل استدعاء `.apply()` للحفظ غير المتزامن.",
+                        fa_af = "`SharedPreferences` داده‌ها را در پوشه خصوصی برنامه ذخیره می‌کند و `.apply()` بدون قفل کردن صفحه آن‌ها را ثبت می‌نماید.",
+                        in_id = "`SharedPreferences` menyimpan file XML ringan di folder privat aplikasi; gunakan `.apply()` agar UI tetap mulus."
+                    ),
+                    kotlinCode = """val prefs = getSharedPreferences("app_cfg", MODE_PRIVATE)
+prefs.edit().putBoolean("dark_mode", true).apply()
+val isDark = prefs.getBoolean("dark_mode", true)"""
+                )
+            )
+        )
+    )
+
+    val javaLessons: List<Lesson> = listOf(
+        Lesson(
+            id = "java_01",
+            track = TrackType.JAVA,
+            level = LearningLevel.BEGINNER,
+            title = localized(
+                en = "01. Java Variables, Primitives & Memory Types",
+                bn = "০১. জাভা ভেরিয়েবল ও ডেটা টাইপ (একদম শুরু)",
+                ur = "01. جاوا متغیرات اور ڈیٹا ٹائپس",
+                hi = "01. जावा वेरिएबल्स और डेटा टाइप्स",
+                ar = "01. متغيرات جافا وأنواع البيانات الأساسية",
+                fa_af = "۰۱. متغیرها و انواع داده در جاوا",
+                in_id = "01. Variabel Java & Tipe Data Primitif"
+            ),
+            subtitle = localized(
+                en = "How int, long, boolean, and String map directly to Dalvik registers.",
+                bn = "কীভাবে int, long, boolean এবং String মেমোরি ও স্মালি রেজিস্টারে কাজ করে।",
+                ur = "جانیں کہ int، long، boolean اور String میموری اور رجسٹرز میں کیسے کام کرتے ہیں۔",
+                hi = "जानें कि int, long, boolean और String मेमोरी और रजिस्टर में कैसे काम करते हैं।",
+                ar = "كيف ترتبط أنواع جافا الأساسية بمسجلات دالفيك مباشرة.",
+                fa_af = "نحوه نگاشت مستقیم انواع int، long، boolean و String به رجسترهای دالویک.",
+                in_id = "Bagaimana int, long, boolean, dan String dipetakan ke register Dalvik."
             ),
             estimatedMinutes = 7,
             sections = listOf(
                 LessonSection(
                     title = localized(
-                        en = "How If-Else Works: Inverted Logic!",
-                        bn = "শর্ত কীভাবে কাজ করে: উল্টো জাম্পিংয়ের খেলা!"
-                    ),
-                    childAnalogy = localized(
-                        en = "A guard says: 'If your ticket is 0 (invalid), jump straight to EXIT! Otherwise, walk right in!' That is what if-eqz does: if equal to zero, jump away!",
-                        bn = "গেটের প্রহরী বলে: 'যদি তোমার টিকিটের মান শূন্য (০ বা মিথ্যা) হয়, তবে লাফ দিয়ে এক্সিট গেটে চলে যাও! আর টিকিট থাকলে সোজা ভেতরে চলো!' স্মালিতে if-eqz ঠিক এই কাজটিই করে: মান ০ হলে লাফ দেয়!"
+                        en = "Typed Containers in Java",
+                        bn = "জাভায় নির্দিষ্ট টাইপের বক্স বা ভেরিয়েবল",
+                        ur = "جاوا میں مخصوص قسم کے متغیرات",
+                        hi = "जावा में निश्चित प्रकार के वेरिएबल",
+                        ar = "الحاويات ذات الأنواع الصارمة في جافا",
+                        fa_af = "ظرف‌های دارای نوع مشخص در زبان جاوا",
+                        in_id = "Wadah Bertipe Ketat di Java"
                     ),
                     content = localized(
-                        en = "In Java you write 'if (isVip)'. Smali inverts this to 'if-eqz v0, :not_vip' to minimize jumps.",
-                        bn = "জাভায় আপনি লেখেন if (isVip)। কিন্তু ডালভিক কম্পাইলার এটাকে উল্টে দিয়ে বলে: if-eqz v0, :cond_not_vip (যদি শূন্য হয়, তবে ফ্রিতে চলে যাও)!"
+                        en = "Java is statically typed: `int` (32-bit `I`), `long` (64-bit `J`), `boolean` (`Z`), and `String` (`Ljava/lang/String;`) each have strict compiler signatures.",
+                        bn = "জাভায় প্রতিটি ভেরিয়েবলের ধরন আগে থেকে বলে দিতে হয়: `int` (স্মালিতে `I`), `long` (`J`), `boolean` (`Z`), এবং `String` (`Ljava/lang/String;`)।",
+                        ur = "جاوا میں ہر متغیر کی قسم طے ہوتی ہے: `int` (`I`)، `long` (`J`)، `boolean` (`Z`) اور `String` (`Ljava/lang/String;`)۔",
+                        hi = "जावा में हर वेरिएबल का प्रकार तय होता है: `int` (`I`), `long` (`J`), `boolean` (`Z`), और `String` (`Ljava/lang/String;`)।",
+                        ar = "تتطلب جافا تحديد نوع كل متغير بدقة: `int` (`I`) و `long` (`J`) و `boolean` (`Z`) و `String`.",
+                        fa_af = "در جاوا نوع هر متغیر از ابتدا مشخص است: `int` (`I`)، `long` (`J`)، `boolean` (`Z`) و `String`.",
+                        in_id = "Java bertipe statis: `int` (`I`), `long` (`J`), `boolean` (`Z`), dan `String` (`Ljava/lang/String;`)."
                     ),
-                    smaliCode = """    # v0 এর মান ১ (VIP) অথবা ০ (Normal)
-    if-eqz v0, :cond_not_vip
-
-    # ভিআইপি হলে এখানে কোড চলবে
-    invoke-virtual {p0}, LApp;->showVip()V
-    goto :cond_finish
-
-    :cond_not_vip
-    invoke-virtual {p0}, LApp;->showAds()V
-
-    :cond_finish
-    return-void"""
+                    javaCode = """int level = 5;
+long xp = 12000L;
+boolean isPremium = true;
+String coder = "Morsalin";"""
                 )
             )
         ),
-
-        // =========================================================================
-        // TRACK 3: JAVA (জিরো থেকে একদম প্রো)
-        // =========================================================================
         Lesson(
-            id = "java_zero_1",
+            id = "java_02",
             track = TrackType.JAVA,
             level = LearningLevel.BEGINNER,
             title = localized(
-                en = "Java 101: Variables & Data Types (Kitchen Jars)",
-                bn = "জাভা ১০১: ভেরিয়েবল ও ডেটা টাইপ (লেবেল লাগানো চিনির জার)"
+                en = "02. Java Methods, Classes & Constructors",
+                bn = "০২. জাভা ক্লাস, মেথড ও কনস্ট্রাক্টর (OOP)",
+                ur = "02. جاوا کلاسز، میتھڈز اور کنسٹرکٹر (OOP)",
+                hi = "02. जावा क्लास, मेथड और कंस्ट्रक्टर (OOP)",
+                ar = "02. الفئات والدوال والبانيات في جافا (OOP)",
+                fa_af = "۰۲. کلاس‌ها، متدها و سازنده‌ها در جاوا (OOP)",
+                in_id = "02. Kelas, Metode & Konstruktor Java (OOP)"
             ),
             subtitle = localized(
-                en = "What is a variable? Putting numbers, text, and booleans into named jars",
-                bn = "ভেরিয়েবল কীভাবে বানাতে হয়, int, double, boolean ও String-এর সহজ পরিচয়"
+                en = "Build reusable blueprints with fields, constructors, and instance methods.",
+                bn = "ক্লাসের ব্লুপ্রিন্ট তৈরি, কনস্ট্রাক্টর এবং মেথড লেখার পরিষ্কার নিয়ম।",
+                ur = "کلاس کا نقشہ بنانا، کنسٹرکٹر اور میتھڈز لکھنے کا آسان طریقہ۔",
+                hi = "क्लास ब्लूप्रिंट, कंस्ट्रक्टर और मेथड लिखने का स्पष्ट तरीका।",
+                ar = "ابنِ قوالب برمجية منظمة تحتوي على الحقول والبانيات والدوال.",
+                fa_af = "ساخت قالب‌های شیءگرا شامل فیلدها، سازنده‌ها و متدها.",
+                in_id = "Bangun cetak biru kelas dengan field, konstruktor, dan metode."
             ),
-            estimatedMinutes = 6,
+            estimatedMinutes = 9,
             sections = listOf(
                 LessonSection(
                     title = localized(
-                        en = "What is a Variable? Kitchen Jars Analogy",
-                        bn = "ভেরিয়েবল কী? রান্নাঘরের লেবেল লাগানো জারের সহজ উপমা"
-                    ),
-                    childAnalogy = localized(
-                        en = "In your kitchen, you have jars with labels: 'Sugar' only holds sugar, 'Cookies' holds cookies. In Java, a variable is a named jar holding one specific type of data!",
-                        bn = "আপনার রান্নাঘরে বিভিন্ন জার থাকে: একটি জারে লেখা থাকে 'চিনি' (সেখানে শুধুই চিনি রাখা যায়), আরেকটিতে লেখা 'বিস্কুট'। জাভায় একটি ভেরিয়েবল হলো নাম দেওয়া একটি জার, যাতে নির্দিষ্ট ধরনের ডেটা রাখা যায়!"
+                        en = "How a Java Class Maps to <init> and iget",
+                        bn = "জাভা ক্লাস কীভাবে স্মালির <init> ও iget-এ রূপান্তরিত হয়",
+                        ur = "جاوا کلاس کس طرح سمالی کے <init> اور iget میں بدلتی ہے",
+                        hi = "जावा क्लास कैसे स्माली के <init> और iget में बदलती है",
+                        ar = "كيف تتحول فئة جافا إلى <init> و iget في سمالي",
+                        fa_af = "نحوه تبدیل کلاس جاوا به <init> و iget در سمالی",
+                        in_id = "Bagaimana Kelas Java Menjadi <init> dan iget"
                     ),
                     content = localized(
-                        en = "• int: whole numbers (e.g., 25)\n• double: decimal numbers (e.g., 3.14)\n• boolean: true or false\n• String: words in quotes (\"Hello\")",
-                        bn = "• int: পূর্ণসংখ্যা (যেমন: ১০, ২০)\n• double: দশমিক সংখ্যা (যেমন: ৩.১৪, ৯৯.৫)\n• boolean: সত্য (true) অথবা মিথ্যা (false)\n• String: কোটেশনের ভেতরে থাকা যেকোনো লেখা (\"মোরসালিন\")"
+                        en = "A constructor initializes fields via `iput` inside `<init>`, while getter methods read fields via `iget` from `p0` (`this`).",
+                        bn = "জাভার কনস্ট্রাক্টর স্মালিতে `<init>` মেথড হয়ে `iput` দিয়ে মান বসায়, আর গেটার মেথড `p0` (`this`) থেকে `iget` দিয়ে মান পড়ে আনে।",
+                        ur = "جاوا کا کنسٹرکٹر سمالی میں `<init>` بن جاتا ہے جو `iput` سے قیمت رکھتا ہے، اور گیٹر میتھڈ `iget` سے قیمت پڑھتا ہے۔",
+                        hi = "जावा कंस्ट्रक्टर स्माली में `<init>` बनकर `iput` से मान रखता है, और गेटर मेथड `iget` से मान पढ़ता है।",
+                        ar = "يتحول الباني إلى دالة `<init>` تكتب الحقول بـ `iput`، بينما تقرأها الدوال بـ `iget` من `p0`.",
+                        fa_af = "سازنده جاوا در سمالی به `<init>` تبدیل شده و با `iput` مقداردهی می‌کند و متدها با `iget` آن را می‌خوانند.",
+                        in_id = "Konstruktor Java menjadi `<init>` yang mengisi field lewat `iput`, sedangkan getter membaca lewat `iget`."
                     ),
-                    javaCode = """public class Main {
-    public static void main(String[] args) {
-        int age = 15;                  // পূর্ণসংখ্যার জার
-        double rating = 4.8;           // দশমিক জার
-        boolean isCoder = true;        // সত্য/মিথ্যা
-        String name = "মোরসালিন";       // টেক্সট জার
-
-        System.out.println("নাম: " + name + ", বয়স: " + age);
+                    javaCode = """public class Account {
+    private int balance;
+    public Account(int initial) {
+        this.balance = initial;
+    }
+    public int getBalance() {
+        return this.balance;
     }
 }"""
                 )
             )
-        ),
+        )
+    )
 
-        // =========================================================================
-        // TRACK 4: KOTLIN (অ্যান্ড্রয়েডের আধুনিক কোডিং)
-        // =========================================================================
+    val kotlinLessons: List<Lesson> = listOf(
         Lesson(
-            id = "kotlin_zero_1",
+            id = "kt_01",
             track = TrackType.KOTLIN,
             level = LearningLevel.BEGINNER,
             title = localized(
-                en = "Kotlin 101: val vs var (Permanent vs Erasable Box)",
-                bn = "কোটলিন ১০১: val বনাম var (পাথরের খোদাই বনাম হোয়াইটবোর্ড)"
+                en = "01. Kotlin val vs var & Null Safety (? and ?:)",
+                bn = "০১. কোটলিন val বনাম var এবং নাল-সেফটি (? ও ?:)",
+                ur = "01. کوٹلن val بمقابلہ var اور نل سیفٹی (? اور ?:)",
+                hi = "01. कोटलिन val बनाम var और नल-सेफ्टी (? व ?:)",
+                ar = "01. الفرق بين val و var والأمان من القيم الفارغة في كوتلن",
+                fa_af = "۰۱. تفاوت val و var و امنیت نال در کاتلین (? و ?:)",
+                in_id = "01. Kotlin val vs var & Keamanan Null (? dan ?:)"
             ),
             subtitle = localized(
-                en = "Why Google chose Kotlin for Android: safe, expressive, and clean",
-                bn = "কখন val ব্যবহার করবেন আর কখন var ব্যবহার করবেন তা পানির মতো সহজে বোঝা"
+                en = "Eliminate NullPointerException crashes using Kotlin's type system.",
+                bn = "অ্যাপ ক্র্যাশ বন্ধ করতে কোটলিনের স্মার্ট নাল-সেফটি ও অপরিবর্তনীয় val শিখুন।",
+                ur = "ایپ کریش روکنے کے لیے کوٹلن کی نل سیفٹی اور val کا استعمال۔",
+                hi = "क्रैश रोकने के लिए कोटलिन की नल-सेफ्टी और अपरिवर्तनीय val सीखें।",
+                ar = "امنع انهيار التطبيقات بسبب القيم الفارغة عبر نظام الأنواع في كوتلن.",
+                fa_af = "جلوگیری کامل از کرش NullPointerException با سیستم نوع داده کاتلین.",
+                in_id = "Hindari crash NullPointerException dengan sistem tipe aman Kotlin."
             ),
-            estimatedMinutes = 5,
+            estimatedMinutes = 8,
             sections = listOf(
                 LessonSection(
                     title = localized(
-                        en = "Stone Tablet vs Whiteboard Analogy",
-                        bn = "পাথরের ফলক বনাম মোছা যায় এমন হোয়াইটবোর্ড"
-                    ),
-                    childAnalogy = localized(
-                        en = "'val' is like carving in stone: once written, it can never be changed! 'var' is writing on a whiteboard with an eraser marker: you can change it anytime.",
-                        bn = "'val' হলো পাথরে খোদাই করে লেখার মতো: একবার মান বসিয়ে দিলে কেউ আর পরিবর্তন করতে পারবে না! আর 'var' হলো মোছা যায় এমন মার্কার দিয়ে লেখার মতো: যখন খুশি মুছে নতুন মান বসাতে পারবেন।"
+                        en = "Immutable val & Elvis Operator (?:)",
+                        bn = "অপরিবর্তনীয় val এবং এলভিস অপারেটর (?:)",
+                        ur = "ناقابل تبدیل val اور ایلوس آپریٹر (?:)",
+                        hi = "अपरिवर्तनीय val और एल्विस ऑपरेटर (?:)",
+                        ar = "الثوابت val ومعامل القيمة البديلة (?:)",
+                        fa_af = "متغیر ثابت val و عملگر الویس (?:)",
+                        in_id = "Nilai Tetap val & Operator Elvis (?:)"
                     ),
                     content = localized(
-                        en = "Google recommends using 'val' by default everywhere to prevent accidental bugs.",
-                        bn = "গুগল রিকমেন্ড করে কোডে সবসময় val ব্যবহার করতে, যাতে কোনো বাগ বা অনাকাঙ্ক্ষিত পরিবর্তন না ঘটে।"
+                        en = "`val` creates a read-only reference (`final` in bytecode), while `String?` explicitly marks nullable text. The Elvis operator `?:` supplies an instant fallback when a value is null.",
+                        bn = "`val` দিয়ে তৈরি মান পরে বদলানো যায় না (বাইটকোডে `final` হয়)। আর কোনো ভেরিয়েবল খালি (`null`) হতে পারলে টাইপের শেষে `?` দিতে হয় এবং `?:` দিয়ে ডিফল্ট মান দেওয়া যায়।",
+                        ur = "`val` کی قیمت دوبارہ تبدیل نہیں ہو سکتی، جبکہ `?` نل ہونے کی اجازت دیتا ہے اور `?:` متبادل قیمت فراہم کرتا ہے۔",
+                        hi = "`val` का मान बदला नहीं जा सकता, जबकि `?` नल की अनुमति देता है और `?:` डिफ़ॉल्ट मान देता है।",
+                        ar = "تعرف `val` مرجعاً للقراءة فقط، بينما تسمح `?` بالقيمة الفارغة ويوفر `?:` قيمة بديلة آمنة.",
+                        fa_af = "`val` مقدار فقط‌خواندنی می‌سازد، علامت `?` اجازه نال بودن می‌دهد و `?:` مقدار پیش‌فرض جایگزین تعیین می‌کند.",
+                        in_id = "`val` bersifat baca-saja (`final`), `String?` mengizinkan null, dan `?:` memberi nilai cadangan."
                     ),
-                    kotlinCode = """fun main() {
-    val birthYear = 2005   // পাথরে খোদাই: পরিবর্তন অসম্ভব!
-    var coinCount = 100    // হোয়াইটবোর্ড: পরিবর্তনযোগ্য!
-
-    coinCount = coinCount + 20 // এখন ১২০ হলো!
-    // birthYear = 2008       // ভুল! কোটলিন এরর দেবে!
-
-    println("কয়েন সংখ্যা: ${'$'}coinCount")
-}"""
+                    kotlinCode = """val appTitle: String = "Smali Learn Pro"
+var nickname: String? = null
+val display = nickname ?: "Guest Learner" // Safe!"""
                 )
             )
         ),
-
-        // =========================================================================
-        // TRACK 5: PYTHON (সহজ স্ক্রিপ্টিং ও অটোমেশন)
-        // =========================================================================
         Lesson(
-            id = "python_zero_1",
-            track = TrackType.PYTHON,
-            level = LearningLevel.BEGINNER,
+            id = "kt_02",
+            track = TrackType.KOTLIN,
+            level = LearningLevel.INTERMEDIATE,
             title = localized(
-                en = "Python 101: Clean English-Like Code & APK Tools",
-                bn = "পাইথন ১০১: সহজ ইংরেজির মতো কোডিং ও এপিকে অটোমেশন"
+                en = "02. Data Classes, when Expressions & Lambdas",
+                bn = "০২. কোটলিন Data Class, when এবং ল্যাম্বডা ফাংশন",
+                ur = "02. کوٹلن Data Class، when اور لیمبڈا فنکشنز",
+                hi = "02. कोटलिन Data Class, when और लैम्ब्डा फ़ंक्शन",
+                ar = "02. فئات البيانات Data Class وتعبير when والدوال السهمية",
+                fa_af = "۰۲. دیتا کلاس‌ها، عبارت when و توابع لامبدا در کاتلین",
+                in_id = "02. Data Class, Ekspresi when & Fungsi Lambda"
             ),
             subtitle = localized(
-                en = "How security researchers and developers automate APK analysis in Python",
-                bn = "কোনো সেমিকোলন বা জটিল ব্র্যাকেট ছাড়া কয়েক লাইনে এপিকে ফাইল আনপ্যাক করা"
+                en = "See what Kotlin auto-generates inside Smali for a 1-line data class.",
+                bn = "মাত্র ১ লাইনের data class কম্পাইল হয়ে স্মালিতে কী কী মেথড তৈরি করে তা দেখুন।",
+                ur = "دیکھیں کہ ایک لائن کی data class سمالی میں کون سے میتھڈز خودکار بناتی ہے۔",
+                hi = "देखें कि 1 लाइन की data class स्माली में कौन-कौन से मेथड स्वतः बनाती है।",
+                ar = "شاهد ما يولده مترجم كوتلن تلقائياً في سمالي لفئة بيانات من سطر واحد.",
+                fa_af = "مشاهده متدهایی که کاتلین به طور خودکار در سمالی برای یک data class می‌سازد.",
+                in_id = "Lihat metode apa saja yang otomatis dibuat Kotlin di Smali untuk data class."
             ),
-            estimatedMinutes = 6,
+            estimatedMinutes = 9,
             sections = listOf(
                 LessonSection(
                     title = localized(
-                        en = "Talking to Computer in Plain English",
-                        bn = "কম্পিউটারের সাথে সাধারণ মানুষের ভাষায় কথা বলার মতো"
-                    ),
-                    childAnalogy = localized(
-                        en = "Python is so simple that reading it feels like reading an English story book! No curly brackets or semicolons required.",
-                        bn = "পাইথন এতই সহজ ও চমৎকার যে এর কোড পড়লে মনে হয় সাধারণ গল্পের বই পড়া হচ্ছে! কোনো সেমিকোলন বা জটিল ব্র্যাকেট লাগে না।"
+                        en = "Auto-Generated copy, equals, hashCode & component1",
+                        bn = "স্বয়ংক্রিয়ভাবে তৈরি copy, equals, hashCode ও component1 মেথড",
+                        ur = "خودکار بننے والے copy، equals، hashCode اور component1 میتھڈز",
+                        hi = "स्वतः निर्मित copy, equals, hashCode और component1 मेथड",
+                        ar = "التوليد التلقائي لدوال copy و equals و hashCode و component1",
+                        fa_af = "تولید خودکار متدهای copy، equals، hashCode و component1",
+                        in_id = "Pembuatan Otomatis copy, equals, hashCode & component1"
                     ),
                     content = localized(
-                        en = "Security engineers use Python to unzip APKs, scan classes.dex, and find vulnerability patterns in seconds.",
-                        bn = "সিকিউরিটি ইঞ্জিনিয়াররা পাইথন দিয়ে স্বয়ংক্রিয়ভাবে APK আনজিপ করে সেকেন্ডের মধ্যে classes.dex ফাইল বের করে ফেলে।"
+                        en = "Writing `data class Opcode(val name: String, val hex: Int)` generates getters, `equals`, `hashCode`, `toString`, `copy`, and destructuring `component1()`/`component2()` methods in Smali!",
+                        bn = "কোটলিনে মাত্র এক লাইনে `data class` লিখলে কম্পাইলার নিজে থেকেই স্মালি ফাইলে গেটার, `equals`, `hashCode`, `toString`, `copy` এবং `component1()` মেথড তৈরি করে দেয়!",
+                        ur = "کوٹلن میں ایک لائن کی `data class` لکھنے پر کمپائلر خودکار طور پر سمالی میں `equals`، `hashCode`، `toString` اور `copy` بنا دیتا ہے!",
+                        hi = "कोटलिन में एक लाइन की `data class` लिखने पर कंपाइलर स्माली में स्वतः `equals`, `hashCode`, `toString` और `copy` बना देता है!",
+                        ar = "كتابة `data class` في سطر واحد تولد تلقائياً دوال `equals` و `hashCode` و `toString` و `copy` في ملف سمالي!",
+                        fa_af = "نوشتن یک خط `data class` باعث تولید خودکار متدهای `equals`، `hashCode`، `toString` و `copy` در سمالی می‌شود!",
+                        in_id = "Menulis 1 baris `data class` otomatis menghasilkan `equals`, `hashCode`, `toString`, `copy`, dan `component1()` di Smali!"
                     ),
-                    pythonCode = """import zipfile
+                    kotlinCode = """data class OpcodeInfo(val name: String, val hex: Int)
 
-def extract_dex_from_apk(apk_file):
-    with zipfile.ZipFile(apk_file, 'r') as archive:
-        archive.extract('classes.dex', './extracted_files')
-        print("সফলভাবে APK থেকে DEX ফাইল বের করা হয়েছে! 🎉")
-
-# extract_dex_from_apk("game.apk")"""
+fun describeCategory(code: Int): String = when (code) {
+    0x12 -> "const/4"
+    0x6e -> "invoke-virtual"
+    else -> "other"
+}"""
                 )
             )
         )
     )
+
+    val pythonLessons: List<Lesson> = listOf(
+        Lesson(
+            id = "py_01",
+            track = TrackType.PYTHON,
+            level = LearningLevel.BEGINNER,
+            title = localized(
+                en = "01. Inspecting APK Archives & DEX Headers with Python",
+                bn = "০১. পাইথন দিয়ে APK ফাইল ও DEX হেডার বিশ্লেষণ",
+                ur = "01. پائتھن کے ذریعے APK اور DEX ہیڈر کا تجزیہ",
+                hi = "01. पायथन से APK आर्काइव और DEX हेडर का निरीक्षण",
+                ar = "01. فحص حزم APK وترويسات DEX بلغة بايثون",
+                fa_af = "۰۱. بررسی ساختار فایل APK و هدر DEX با پایتون",
+                in_id = "01. Memeriksa Arsip APK & Header DEX dengan Python"
+            ),
+            subtitle = localized(
+                en = "Automate listing classes.dex files and verifying the 'dex\\n035' magic header.",
+                bn = "মাত্র কয়েক লাইনের পাইথন স্ক্রিপ্ট দিয়ে APK-এর ভেতরের DEX ফাইল ও ম্যাজিক বাইট চেক করুন।",
+                ur = "چند لائنوں کے پائتھن اسکرپٹ سے APK کے اندر موجود DEX فائلوں کی جانچ کریں۔",
+                hi = "कुछ लाइनों की पायथन स्क्रिप्ट से APK के भीतर DEX फ़ाइलों और मैजिक बाइट की जांच करें।",
+                ar = "أتمتة استخراج ملفات classes.dex والتحقق من البايتات السحرية للتطبيق.",
+                fa_af = "خودکارسازی بررسی فایل‌های classes.dex و امضای جادویی هدر با پایتون.",
+                in_id = "Otomasi pemeriksaan file classes.dex dan magic byte header DEX."
+            ),
+            estimatedMinutes = 8,
+            sections = listOf(
+                LessonSection(
+                    title = localized(
+                        en = "Reading APK ZIP Entries & DEX Magic Bytes",
+                        bn = "APK জিপ এন্ট্রি এবং DEX ম্যাজিক বাইট পড়া",
+                        ur = "APK زپ انٹریز اور DEX میجک بائٹس پڑھنا",
+                        hi = "APK ज़िप एंट्री और DEX मैजिक बाइट्स पढ़ना",
+                        ar = "قراءة محتويات حزمة APK وتوقيع ملف DEX",
+                        fa_af = "خواندن محتویات فشرده APK و بایت‌های آغازین DEX",
+                        in_id = "Membaca Entri ZIP APK & Magic Byte DEX"
+                    ),
+                    content = localized(
+                        en = "Every `.apk` is a standard ZIP archive, and every valid `classes.dex` starts with the 8-byte ASCII signature `dex\\n035\\x00` (or `039` on newer Android builds).",
+                        bn = "প্রতিটি `.apk` মূলত একটি ZIP ফাইল, আর তার ভেতরের প্রতিটি আসল `classes.dex` ফাইলের প্রথম ৮ বাইটে `dex\\n035\\x00` (বা `039`) সিগনেচার লেখা থাকে। পাইথনের `zipfile` মডিউল দিয়ে মুহূর্তেই এটি পরীক্ষা করা যায়।",
+                        ur = "ہر `.apk` دراصل ایک ZIP فائل ہوتی ہے اور ہر درست `classes.dex` کے شروع میں `dex\\n035` دستخط موجود ہوتا ہے۔",
+                        hi = "प्रत्येक `.apk` वास्तव में एक ZIP आर्काइव होता है, और हर वैध `classes.dex` के शुरू में `dex\\n035` सिग्नेचर होता है।",
+                        ar = "كل ملف `.apk` هو أرشيف ZIP قياسي، ويبدأ كل ملف `classes.dex` صالح بالتوقيع `dex\\n035`.",
+                        fa_af = "هر فایل `.apk` یک آرشیو استاندارد ZIP است و هر فایل معتبر `classes.dex` با امضای `dex\\n035` آغاز می‌شود.",
+                        in_id = "Setiap `.apk` adalah arsip ZIP standar, dan setiap `classes.dex` valid diawali tanda `dex\\n035`."
+                    ),
+                    pythonCode = """import zipfile
+
+def audit_apk(apk_path: str):
+    with zipfile.ZipFile(apk_path, "r") as zf:
+        dex_files = [n for n in zf.namelist() if n.endswith(".dex")]
+        print(f"Found {len(dex_files)} DEX files:", dex_files)
+        magic = zf.read("classes.dex")[:8]
+        print("DEX Header Magic:", magic)"""
+                )
+            )
+        ),
+        Lesson(
+            id = "py_02",
+            track = TrackType.PYTHON,
+            level = LearningLevel.INTERMEDIATE,
+            title = localized(
+                en = "02. Scanning Smali Folders for Opcodes & Security Patterns",
+                bn = "০২. পাইথন দিয়ে হাজার হাজার স্মালি ফাইল স্বয়ংক্রিয়ভাবে সার্চ করা",
+                ur = "02. پائتھن سے ہزاروں سمالی فائلوں میں خودکار تلاش",
+                hi = "02. पायथन से हज़ारों स्माली फ़ाइलों में ऑपकोड व पैटर्न खोजना",
+                ar = "02. مسح مجلدات سمالي تلقائياً للبحث عن التعليمات والأنماط",
+                fa_af = "۰۲. اسکن خودکار هزاران فایل سمالی با اسکریپت پایتون",
+                in_id = "02. Memindai Ribuan File Smali Otomatis dengan Python"
+            ),
+            subtitle = localized(
+                en = "Write a clean pathlib script to audit WebView settings or hardcoded URLs across Smali trees.",
+                bn = "বড় প্রজেক্টের সব `.smali` ফাইল স্ক্যান করে মুহূর্তেই নির্দিষ্ট মেথড কল খুঁজে বের করার স্ক্রিপ্ট।",
+                ur = "بڑے پروجیکٹ کی تمام `.smali` فائلوں کو اسکین کر کے مخصوص میتھڈ کالز تلاش کریں۔",
+                hi = "बड़े प्रोजेक्ट की सभी `.smali` फ़ाइलों को स्कैन कर विशिष्ट मेथड कॉल तुरंत खोजें।",
+                ar = "اكتب سكربت بايثون لفحص إعدادات الأمان واستدعاءات الدوال عبر شجرة ملفات سمالي.",
+                fa_af = "نوشتن اسکریپت تمیز برای یافتن فراخوانی‌های خاص در میان تمام پوشه‌های سمالی.",
+                in_id = "Gunakan skrip pathlib untuk mengaudit pemanggilan metode di seluruh pohon folder Smali."
+            ),
+            estimatedMinutes = 8,
+            sections = listOf(
+                LessonSection(
+                    title = localized(
+                        en = "Automated Smali Static Security Scanner",
+                        bn = "স্বয়ংক্রিয় স্মালি সিকিউরিটি অডিট স্ক্যানার",
+                        ur = "خودکار سمالی سیکیورٹی آڈٹ اسکینر",
+                        hi = "स्वचालित स्माली सुरक्षा ऑडिट स्कैनर",
+                        ar = "ماسح أمني ثابت وذكي لملفات سمالي",
+                        fa_af = "اسکنر خودکار بررسی امنیتی فایل‌های سمالی",
+                        in_id = "Pemindai Audit Keamanan Statis Smali"
+                    ),
+                    content = localized(
+                        en = "Security engineers audit their own release APKs by scanning decompiled `.smali` files for risky API calls such as `setJavaScriptEnabled` or cleartext `http://` endpoints.",
+                        bn = "সিকিউরিটি ইঞ্জিনিয়াররা নিজেদের অ্যাপ রিলিজ দেওয়ার আগে পাইথন স্ক্রিপ্ট দিয়ে সব `.smali` ফাইল স্ক্যান করে দেখেন কোথাও অনিরাপদ `http://` লিংক বা `setJavaScriptEnabled` রয়ে গেছে কি না।",
+                        ur = "سیکیورٹی انجینئرز ریلیز سے پہلے پائتھن کے ذریعے تمام `.smali` فائلوں میں غیر محفوظ `http://` لنکس چیک کرتے ہیں۔",
+                        hi = "सुरक्षा इंजीनियर रिलीज़ से पहले पायथन द्वारा सभी `.smali` फ़ाइलों में असुरक्षित `http://` लिंक या API कॉल जांचते हैं।",
+                        ar = "يفحص مهندسو الأمان ملفات `.smali` برمجياً لاكتشاف الروابط غير المشفرة أو الإعدادات الحساسة قبل النشر.",
+                        fa_af = "مهندسان امنیت پیش از انتشار برنامه با اسکریپت پایتون تمام فایل‌های `.smali` را برای یافتن لینک‌های ناامن بررسی می‌کنند.",
+                        in_id = "Insinyur keamanan memindai `.smali` untuk mendeteksi URL `http://` atau API sensitif sebelum rilis."
+                    ),
+                    pythonCode = """from pathlib import Path
+
+def scan_smali_tree(root_dir: str, needle: str):
+    for smali_file in Path(root_dir).rglob("*.smali"):
+        for idx, line in enumerate(smali_file.read_text(errors="ignore").splitlines(), 1):
+            if needle in line:
+                print(f"{smali_file.name}:{idx} -> {line.strip()}")"""
+                )
+            )
+        )
+    )
+
+    val allLessons: List<Lesson> = androidLessons + javaLessons + kotlinLessons + pythonLessons
 }

@@ -4,10 +4,14 @@ import android.content.Context
 import androidx.test.core.app.ApplicationProvider
 import com.example.data.CurriculumRepository
 import com.example.data.InstructionRepository
+import com.example.data.SmaliReferenceData
+import com.example.localization.AppLanguage
+import com.example.localization.LocalizationManager
 import com.example.util.IssueSeverity
 import com.example.util.SmaliAnalyzer
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNotEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -35,20 +39,51 @@ class ExampleRobolectricTest {
   @Test
   fun `curriculum repository has complete lessons across all levels`() {
     val lessons = CurriculumRepository.lessons
-    assertTrue(lessons.size >= 8)
+    assertTrue(lessons.size >= 20)
+    assertEquals(16, CurriculumRepository.smaliLessons.size)
   }
 
   @Test
-  fun `instruction repository contains core Dalvik opcodes`() {
+  fun `instruction repository contains core and advanced Dalvik opcodes`() {
     val opcodes = InstructionRepository.instructions.map { it.opcode }
+    assertTrue(opcodes.size >= 30)
     assertTrue(opcodes.contains("const/4"))
     assertTrue(opcodes.contains("move-result"))
     assertTrue(opcodes.contains("if-eqz"))
     assertTrue(opcodes.contains("invoke-virtual"))
+    assertTrue(opcodes.contains("new-instance"))
+    assertTrue(opcodes.contains("iget"))
   }
 
   @Test
-  fun `smali analyzer catches register out of bounds error`() {
+  fun `smali signature decoder parses invoke and field lines accurately`() {
+    val decoded = SmaliReferenceData.decodeSmaliLine(
+      "invoke-virtual {p0, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;"
+    )
+    assertEquals("java.lang.StringBuilder", decoded.ownerClass)
+    assertEquals("append", decoded.memberName)
+    assertTrue(decoded.plainSummary.get(AppLanguage.BENGALI).isNotBlank())
+  }
+
+  @Test
+  fun `localization manager covers all languages without falling back to raw keys`() {
+    LocalizationManager.translations.forEach { (key, map) ->
+      AppLanguage.entries.forEach { lang ->
+        val translated = map[lang]
+        assertTrue("Missing translation for $key in $lang", !translated.isNullOrBlank())
+        assertNotEquals(key, translated)
+      }
+    }
+    CurriculumRepository.lessons.forEach { lesson ->
+      AppLanguage.entries.forEach { lang ->
+        assertTrue(lesson.title.get(lang).isNotBlank())
+        assertTrue(lesson.subtitle.get(lang).isNotBlank())
+      }
+    }
+  }
+
+  @Test
+  fun `smali analyzer catches register out of bounds error in English and Bengali`() {
     val faultyCode = """
       .method public test()V
           .locals 2
@@ -58,9 +93,13 @@ class ExampleRobolectricTest {
       .end method
     """.trimIndent()
 
-    val result = SmaliAnalyzer.analyze(faultyCode)
-    assertFalse(result.isValid)
-    assertTrue(result.issues.any { it.severity == IssueSeverity.ERROR && it.message.contains("out of bounds") })
+    val enResult = SmaliAnalyzer.analyze(faultyCode, AppLanguage.ENGLISH)
+    assertFalse(enResult.isValid)
+    assertTrue(enResult.issues.any { it.severity == IssueSeverity.ERROR && it.message.contains("out of bounds") })
+
+    val bnResult = SmaliAnalyzer.analyze(faultyCode, AppLanguage.BENGALI)
+    assertFalse(bnResult.isValid)
+    assertTrue(bnResult.issues.isNotEmpty())
   }
 
   @Test
