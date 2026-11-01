@@ -26,6 +26,13 @@ class ExampleRobolectricTest {
   }
 
   @Test
+  fun `main activity launches without crash`() {
+    val controller = org.robolectric.Robolectric.buildActivity(MainActivity::class.java).setup()
+    val activity = controller.get()
+    org.junit.Assert.assertNotNull(activity)
+  }
+
+  @Test
   fun `curriculum repository has complete lessons across all levels`() {
     val lessons = CurriculumRepository.lessons
     assertTrue(lessons.size >= 8)

@@ -56,12 +56,9 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.paint
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
-import com.example.R
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -160,13 +157,18 @@ fun MainAppScaffold(
         BottomBarItem(NavTab.SETTINGS, "nav_settings", Icons.Default.Settings)
     )
 
+    val morsalinAppBackgroundBrush = Brush.verticalGradient(
+        colors = listOf(
+            Color(0xFF050811),
+            Color(0xFF0B1020),
+            Color(0xFF0F172C)
+        )
+    )
+
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
-            .paint(
-                painter = painterResource(id = R.drawable.morsalin_bg_xml),
-                contentScale = ContentScale.FillBounds
-            ),
+            .background(morsalinAppBackgroundBrush),
         containerColor = Color.Transparent,
         topBar = {
             TopAcademyBar(uiState = uiState, viewModel = viewModel)

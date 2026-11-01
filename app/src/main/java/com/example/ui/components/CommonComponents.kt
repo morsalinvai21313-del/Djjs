@@ -48,14 +48,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -355,20 +352,25 @@ fun MorsalinButton(
     contentPadding: PaddingValues = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
     content: @Composable androidx.compose.foundation.layout.RowScope.() -> Unit
 ) {
+    val morsalinButtonGradient = Brush.horizontalGradient(
+        colors = listOf(
+            Color(0xFF7928CA),
+            Color(0xFF4F46E5),
+            Color(0xFF00D2FF)
+        )
+    )
+
     Surface(
         modifier = modifier
             .clip(RoundedCornerShape(14.dp))
             .clickable(enabled = enabled, onClick = onClick)
-            .border(1.dp, Color(0x6600E5FF), RoundedCornerShape(14.dp)),
+            .border(1.2.dp, Color(0x9900E5FF), RoundedCornerShape(14.dp)),
         color = Color.Transparent,
         shape = RoundedCornerShape(14.dp)
     ) {
         Box(
             modifier = Modifier
-                .paint(
-                    painter = painterResource(id = com.example.R.drawable.morsalin_button_bg_xml),
-                    contentScale = ContentScale.FillBounds
-                )
+                .background(morsalinButtonGradient)
                 .padding(contentPadding),
             contentAlignment = Alignment.Center
         ) {
