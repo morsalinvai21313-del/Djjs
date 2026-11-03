@@ -1,0 +1,16 @@
+APK Build & Verification Report
+===============================
+Application Name : Smali Learn Pro
+Package ID       : com.aistudio.smalilearn.pxkjvw
+Version          : 2.0 (versionCode 2)
+Android SDK      : minSdk 24 (Android 7.0+) -> targetSdk 36
+Primary Output   : APK_DOWNLOAD/app-debug.apk
+Secondary Output : APK Download/app-debug.apk
+Exact Size       : 18.84 MB (19754728 bytes)
+Total Zip Entries: 146
+DEX Files        : 9
+Manifest Present : true
+Resources Table  : true
+APK Signature v2+: true
+META-INF Cert    : false
+Install Status   : READY_FOR_ANDROID_INSTALLATION

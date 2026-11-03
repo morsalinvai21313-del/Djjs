@@ -312,26 +312,26 @@ object LocalizationManager {
             "Hubungkan tombol UI, Intent, siklus hidup, dialog, penyimpanan, RecyclerView & WebView."
         ),
         "track_java_title" to tr(
-            "Java Fundamentals",
-            "জাভা প্রোগ্রামিং (বেসিক থেকে প্রো)",
-            "جاوا پروگرامنگ",
-            "जावा प्रोग्रामिंग",
-            "أساسيات لغة جافا",
-            "برنامه‌نویسی جاوا",
-            "Dasar Pemrograman Java"
+            "Java Programming (Zero to Pro)",
+            "জাভা প্রোগ্রামিং (জিরো থেকে অ্যাডভান্স)",
+            "جاوا پروگرامنگ (صفر سے ایڈوانس)",
+            "जावा प्रोग्रामिंग (शून्य से एडवांस)",
+            "برمجة جافا (من الصفر للاحتراف)",
+            "برنامه‌نویسی جاوا (از صفر تا پیشرفته)",
+            "Pemrograman Java (Nol ke Mahir)"
         ),
         "track_java_desc" to tr(
-            "Variables, conditions, loops, methods, classes & OOP foundations for Android bytecode mastery.",
-            "ভেরিয়েবল, শর্তাবলী, লুপ, মেথড ও অবজেক্ট ওরিয়েন্টেড প্রোগ্রামিং সহজ উদাহরণসহ শিখুন।",
-            "متغیرات، شرائط، لوپس، میتھڈز اور آبجیکٹ اورینٹڈ پروگرامنگ آسان مثالوں کے ساتھ سیکھیں۔",
-            "वेरिएबल्स, शर्तें, लूप्स, मेथड्स और ऑब्जेक्ट-ओरिएंटेड प्रोग्रामिंग आसान उदाहरणों के साथ सीखें।",
-            "المتغيرات، الشروط، الحلقات، الدوال والبرمجة الكائنية بأمثلة مبسطة وواضحة.",
-            "متغیرها، شرط‌ها، حلقه‌ها، متدها و شی‌گرایی با مثال‌های ساده و کاربردی.",
-            "Variabel, kondisi, perulangan, metode & fondasi OOP untuk penguasaan Android."
+            "Complete 16-chapter Java masterclass + 32+ keywords, Stack vs Heap RAM visualizer, OOP cheat sheets & live Java→Smali compiler.",
+            "১৬টি পূর্ণাঙ্গ অধ্যায় + ৩২+ কীওয়ার্ড ডিকশনারি, Stack বনাম Heap মেমোরি ভিজ্যুয়ালাইজার, OOP চিটশিট ও লাইভ জাভা→স্মালি কম্পাইলার!",
+            "16 مکمل ابواب + 32+ کی ورڈز، اسٹیک بمقابلہ ہیپ میموری ویژولائزر، OOP چیٹ شیٹ اور لائیو جاوا→سمالی کمپائلر۔",
+            "16 संपूर्ण अध्याय + 32+ कीवर्ड डिक्शनरी, Stack बनाम Heap मेमोरी विज़ुअलाइज़र, OOP चीट शीट और लाइव जावा→स्माली कंपाइलर।",
+            "دورة جافا متكاملة من 16 فصلاً + قاموس الكلمات المفتاحية ومحاكي الذاكرة ومترجم جافا إلى سمالي المباشر.",
+            "دوره کامل ۱۶ فصلی جاوا + دیکشنری کلیدواژه‌ها، شبیه‌ساز حافظه Stack/Heap و مبدل زنده جاوا به سمالی.",
+            "Kelas master Java 16 bab lengkap + kamus kata kunci, visualisasi RAM Stack/Heap & kompiler Java→Smali."
         ),
         "track_kotlin_title" to tr(
             "Modern Kotlin for Android",
-            "আধুনিক কোটলিন প্রোগ্রামিং",
+            "আধুনিক কোটলিন প্রোগ্রামিং (জিরো থেকে প্রো)",
             "اینڈرائیڈ کے لیے جدید کوٹلن",
             "आधुनिक कोटलिन प्रोग्रामिंग",
             "لغة كوتلن الحديثة لأندرويد",
@@ -339,17 +339,17 @@ object LocalizationManager {
             "Kotlin Modern untuk Android"
         ),
         "track_kotlin_desc" to tr(
-            "val vs var, null-safety, smart casts, data classes & lambdas explained effortlessly.",
-            "val বনাম var, নাল সেফটি, ডেটা ক্লাস এবং ল্যাম্বডা ফাংশন খুব সহজে আয়ত্ত করুন।",
-            "val بمقابلہ var، نل سیفٹی، ڈیٹا کلاسز اور لیمبڈا فنکشنز نہایت آسانی سے سیکھیں۔",
-            "val बनाम var, नल सेफ्टी, डेटा क्लासेस और लैम्ब्डा फ़ंक्शन बेहद आसानी से सीखें।",
-            "الفرق بين val و var، الأمان من القيم الفارغة، فئات البيانات والدوال السهمية بسهولة.",
-            "تفاوت val و var، امنیت نال، دیتا کلاس‌ها و توابع لامبدا به زبان بسیار ساده.",
-            "val vs var, null-safety, data class & fungsi lambda dijelaskan dengan sangat mudah."
+            "Null-safety, data/sealed classes, extension functions, coroutines, StateFlow & bytecode interop.",
+            "val/var, নাল সেফটি, ডেটা ও সিলড ক্লাস, এক্সটেনশন ফাংশন, কোরুটিং ও স্টেট-ফ্লো একদম সহজে শিখুন।",
+            "نل سیفٹی، ڈیٹا اور سیلڈ کلاسز، ایکسٹینشن فنکشنز، کوروٹینز اور اسٹیٹ فلو نہایت آسانی سے سیکھیں۔",
+            "नल-सेफ्टी, डेटा व सील्ड क्लासेस, एक्सटेंशन फ़ंक्शन, कोरूटीन और स्टेट-फ़्लो बेहद आसानी से सीखें।",
+            "الأمان من القيم الفارغة، فئات البيانات، الدوال الممتدة، الكوروتينات والتدفقات التفاعلية بسهولة.",
+            "امنیت نال، دیتا کلاس‌ها، توابع توسعه‌ای، کوروتین‌ها و مدیریت وضعیت مدرن به زبان ساده.",
+            "Null-safety, data/sealed class, fungsi ekstensi, coroutine & StateFlow dijelaskan dengan rapi."
         ),
         "track_python_title" to tr(
-            "Python APK Automation",
-            "পাইথন ও এপিকে অটোমেশন",
+            "Python APK & Security Automation",
+            "পাইথন প্রোগ্রামিং ও এপিকে অটোমেশন",
             "پائتھن اور APK آٹومیشن",
             "पायथन और APK ऑटोमेशन",
             "بايثون وأتمتة فحص APK",
@@ -357,13 +357,13 @@ object LocalizationManager {
             "Otomasi APK dengan Python"
         ),
         "track_python_desc" to tr(
-            "Clean scripting to inspect ZIP/APK archives, scan DEX strings, and automate analysis.",
-            "সহজ পাইথন স্ক্রিপ্ট দিয়ে APK ফাইল বিশ্লেষণ, DEX স্ট্রিং খোঁজা এবং অটোমেশন শিখুন।",
-            "آسان پائتھن اسکرپٹس کے ذریعے APK فائل کا تجزیہ اور خودکار جانچ سیکھیں۔",
-            "सरल पायथन स्क्रिप्ट के साथ APK फ़ाइल विश्लेषण और DEX स्ट्रिंग स्कैनिंग सीखें।",
-            "كتابة سكربتات بايثون نظيفة لفحص ملفات APK واستخراج النصوص وأتمتة التحليل.",
-            "اسکریپت‌نویسی تمیز پایتون برای بررسی فایل‌های APK و تحلیل خودکار بایت‌کد.",
-            "Skrip Python rapi untuk memeriksa arsip APK, memindai string DEX & otomasi."
+            "Clean Python scripts to inspect DEX headers, scan Smali trees, extract strings & audit manifests.",
+            "সহজ পাইথন স্ক্রিপ্ট দিয়ে APK বিশ্লেষণ, DEX স্ট্রিং এক্সট্রাকশন, ম্যানিফেস্ট ও স্মালি অটোমেশন শিখুন।",
+            "آسان پائتھن اسکرپٹس کے ذریعے APK فائل کا تجزیہ، اسٹرنگ ایکسٹریکشن اور خودکار جانچ سیکھیں۔",
+            "सरल पायथन स्क्रिप्ट से APK निरीक्षण, DEX स्ट्रिंग निष्कर्षण और स्वचालित सुरक्षा ऑडिट सीखें।",
+            "سكربتات بايثون نظيفة لفحص ترويسات DEX واستخراج النصوص وأتمتة التدقيق الأمني.",
+            "اسکریپت‌نویسی پایتون برای تحلیل هدر DEX، استخراج رشته‌ها و بررسی خودکار فایل‌های APK.",
+            "Skrip Python rapi untuk memeriksa header DEX, mengekstrak string & mengaudit APK."
         ),
 
         "track_short_smali" to tr("Smali", "স্মালি", "سمالی", "स्माली", "سمالي", "سمالی", "Smali"),
@@ -372,11 +372,11 @@ object LocalizationManager {
         "track_short_kotlin" to tr("Kotlin", "কোটলিন", "کوٹلن", "कोटलिन", "كوتلن", "کاتلین", "Kotlin"),
         "track_short_python" to tr("Python", "পাইথন", "پائتھن", "पायथन", "بايثون", "پایتون", "Python"),
 
-        "track_tag_smali" to tr("Dalvik & DEX • 16 Lessons", "ডালভিক ও DEX • ১৬টি পাঠ", "ڈالوک اور DEX", "डाल्विक और DEX", "دالفيك و DEX", "دالویک و DEX", "Dalvik & DEX"),
-        "track_tag_android" to tr("UI, Intents & Storage", "ইউআই, বাটন ও স্টোরেজ", "یو آئی، بٹن اور اسٹوریج", "यूआई, बटन और स्टोरेज", "الواجهة والتنقل والتخزين", "رابط کاربری و حافظه", "UI, Intent & Penyimpanan"),
-        "track_tag_java" to tr("Core OOP & Logic", "ভেরিয়েবল, লুপ ও OOP", "بنیادی لاجک اور OOP", "कोर लॉजिक और OOP", "المنطق والبرمجة الكائنية", "منطق پایه و شی‌گرایی", "Logika & OOP Inti"),
-        "track_tag_kotlin" to tr("Null-Safe Modern Code", "নাল-সেফ আধুনিক কোড", "نل سیف جدید کوڈ", "नल-सेफ आधुनिक कोड", "كود حديث وآمن", "کد مدرن و ایمن", "Kode Modern Null-Safe"),
-        "track_tag_python" to tr("APK Audit Scripting", "এপিকে অডিট স্ক্রিপ্টিং", "APK آڈٹ اسکرپٹنگ", "APK ऑडिट स्क्रिप्टिंग", "أتمتة فحص التطبيقات", "اسکریپت بررسی APK", "Skrip Audit APK"),
+        "track_tag_smali" to tr("Dalvik & DEX • 16 Lessons", "ডালভিক ও DEX • ১৬টি পাঠ", "ڈالوک اور DEX • 16 اسباق", "डाल्विक और DEX • 16 पाठ", "دالفيك و DEX • 16 درساً", "دالویک و DEX • ۱۶ درس", "Dalvik & DEX • 16 Modul"),
+        "track_tag_android" to tr("UI, Lifecycle & Lists • 6 Lessons", "ইউআই, ইনটেন্ট ও লিস্ট • ৬টি পাঠ", "یو آئی اور لائف سائیکل • 6 اسباق", "यूआई और लाइफसाइकिल • 6 पाठ", "الواجهة ودورة الحياة • 6 دروس", "رابط کاربری و لیست‌ها • ۶ درس", "UI & Lifecycle • 6 Modul"),
+        "track_tag_java" to tr("Zero to Pro OOP • 16 Lessons", "জিরো থেকে প্রো • ১৬টি পাঠ + ল্যাব", "صفر سے پرو OOP • 16 اسباق", "शून्य से प्रो OOP • 16 पाठ", "من الصفر للاحتراف • 16 درساً", "از صفر تا پیشرفته • ۱۶ درس", "Nol ke Pro OOP • 16 Modul"),
+        "track_tag_kotlin" to tr("Coroutines & Modern • 6 Lessons", "নাল-সেফ ও কোরুটিং • ৬টি পাঠ", "جدید کوٹلن • 6 اسباق", "आधुनिक कोटलिन • 6 पाठ", "كوتلن الحديثة • 6 دروس", "کاتلین مدرن • ۶ درس", "Kotlin Modern • 6 Modul"),
+        "track_tag_python" to tr("APK Audit Scripts • 5 Lessons", "এপিকে অটোমেশন স্ক্রিপ্ট • ৫টি পাঠ", "APK آڈٹ اسکرپٹنگ • 5 اسباق", "APK ऑडिट स्क्रिप्ट • 5 पाठ", "أتمتة فحص التطبيقات • 5 دروس", "اسکریپت بررسی APK • ۵ درس", "Skrip Audit APK • 5 Modul"),
 
         // Levels
         "level_1_title" to tr(
@@ -929,7 +929,183 @@ object LocalizationManager {
             "تمامی منوها، درس‌ها، توضیحات آپ‌کدها، آزمایشگاه و آزمون‌ها کاملاً به زبان انتخابی تغییر می‌کنند.",
             "100% menu, pelajaran, penjelasan opcode, lab & kuis langsung berubah ke bahasa pilihan."
         ),
-        "confirm_language" to tr("Apply Language", "ভাষা প্রয়োগ করুন", "زبان لاگو کریں", "भाषा लागू करें", "تطبيق اللغة", "اعمال زبان", "Terapkan Bahasa")
+        "confirm_language" to tr("Apply Language", "ভাষা প্রয়োগ করুন", "زبان لاگو کریں", "भाषा लागू करें", "تطبيق اللغة", "اعمال زبان", "Terapkan Bahasa"),
+
+        // Java Programming Zero-to-Pro Master Hub
+        "java_hub_banner_badge" to tr(
+            "COMPLETE JAVA PROGRAMMING ACADEMY",
+            "সম্পূর্ণ জাভা প্রোগ্রামিং মাস্টার গাইড",
+            "مکمل جاوا پروگرامنگ ماسٹر گائیڈ",
+            "संपूर्ण जावा प्रोग्रामिंग मास्टर गाइड",
+            "أكاديمية برمجة جافا المتكاملة",
+            "دانشنامه کامل برنامه‌نویسی جاوا",
+            "AKADEMI PEMROGRAMAN JAVA LENGKAP"
+        ),
+        "java_hub_banner_title" to tr(
+            "Master Java Programming from Zero to Pro",
+            "জাভা প্রোগ্রামিং শিখুন একদম জিরো থেকে অ্যাডভান্স পর্যন্ত",
+            "جاوا پروگرامنگ صفر سے ایڈوانس تک مکمل سیکھیں",
+            "जावा प्रोग्रामिंग शून्य से एडवांस तक पूरी तरह सीखें",
+            "أتقن برمجة جافا بالكامل من الصفر إلى الاحتراف",
+            "برنامه‌نویسی جاوا را از صفر تا پیشرفته کامل بیاموزید",
+            "Kuasai Pemrograman Java dari Nol hingga Mahir"
+        ),
+        "java_hub_banner_subtitle" to tr(
+            "16 Deep Modules • 32+ Java Keywords • Stack vs Heap Visualizer • OOP Cheat Sheets • Live Java→Smali Lab",
+            "১৬টি পূর্ণাঙ্গ অধ্যায় • ৩২+ জাভা কীওয়ার্ড • Stack ও Heap মেমোরি সিমুলেটর • OOP চিটশিট • লাইভ জাভা→স্মালি রূপান্তর",
+            "16 تفصیلی اسباق • 32+ جاوا کی ورڈز • اسٹیک اور ہیپ میموری ویژولائزر • OOP چیٹ شیٹ • لائیو جاوا→سمالی ٹول",
+            "16 विस्तृत अध्याय • 32+ जावा कीवर्ड • Stack व Heap मेमोरी सिम्युलेटर • OOP चीट शीट • लाइव जावा→स्माली लैब",
+            "16 وحدة شاملة • +32 كلمة مفتاحية • محاكي ذاكرة Stack و Heap • ملخصات OOP • محول جافا إلى سمالي الحي",
+            "۱۶ فصل کامل • ۳۲+ کلیدواژه جاوا • شبیه‌ساز حافظه Stack و Heap • خلاصه OOP • مبدل زنده جاوا به سمالی",
+            "16 Modul Mendalam • 32+ Kata Kunci Java • Visualisasi Stack/Heap • Cheat Sheet OOP • Lab Java→Smali"
+        ),
+        "java_hub_cta" to tr(
+            "Open Java Master Hub",
+            "জাভা মাস্টার গাইড খুলুন",
+            "جاوا ماسٹر گائیڈ کھولیں",
+            "जावा मास्टर गाइड खोलें",
+            "افتح مركز جافا المتكامل",
+            "باز کردن راهنمای جامع جاوا",
+            "Buka Pusat Master Java"
+        ),
+
+        "java_tab_roadmap" to tr("Zero→Pro", "জিরো→প্রো", "صفر→پرو", "शून्य→प्रो", "المسار", "صفر تا پرو", "Nol→Pro"),
+        "java_tab_keywords" to tr("Keywords", "কীওয়ার্ডসমূহ", "کی ورڈز", "कीवर्ड", "الكلمات", "کلیدواژه‌ها", "Kata Kunci"),
+        "java_tab_memory" to tr("OOP & RAM", "মেমোরি ও চিটশিট", "میموری اور قواعد", "मेमोरी व नियम", "الذاكرة والقواعد", "حافظه و قواعد", "RAM & OOP"),
+        "java_tab_compiler" to tr("Java→Smali", "জাভা→স্মালি", "جاوا→سمالی", "जावा→स्माली", "جافا←سمالي", "جاوا←سمالی", "Java→Smali"),
+
+        "java_search_hint" to tr(
+            "Search Java keyword, API, Smali or meaning...",
+            "জাভা কীওয়ার্ড, ক্লাস বা বাংলায় কাজ লিখে খুঁজুন...",
+            "جاوا کی ورڈ، کلاس یا مفہوم تلاش کریں...",
+            "जावा कीवर्ड, क्लास या अर्थ खोजें...",
+            "ابحث عن الكلمة المفتاحية أو الفئة أو المعنى...",
+            "جستجوی کلیدواژه جاوا، کلاس یا کاربرد...",
+            "Cari kata kunci Java, kelas, atau kegunaan..."
+        ),
+        "all_keywords_fmt" to tr(
+            "All (%1\$s)",
+            "সবগুলো (%1\$s)",
+            "تمام (%1\$s)",
+            "सभी (%1\$s)",
+            "الكل (%1\$s)",
+            "همه (%1\$s)",
+            "Semua (%1\$s)"
+        ),
+        "jcat_TYPES_VARS" to tr("Types & Vars", "ডেটা টাইপ ও ভেরিয়েবল", "ٹائپس اور متغیرات", "डेटा टाइप व वेरिएबल", "الأنواع والمتغيرات", "نوع داده و متغیر", "Tipe & Variabel"),
+        "jcat_CONTROL_FLOW" to tr("Conditions & Loops", "শর্ত ও লুপ (if/for)", "شرائط اور لوپس", "शर्तें और लूप", "الشروط والحلقات", "شرط‌ها و حلقه‌ها", "Kondisi & Loop"),
+        "jcat_OOP_CLASSES" to tr("OOP & Classes", "ক্লাস ও OOP", "کلاسز اور OOP", "क्लास और OOP", "الكائنات والوراثة", "کلاس و شی‌گرایی", "OOP & Kelas"),
+        "jcat_MODIFIERS" to tr("Modifiers", "মডিফায়ার (public/static)", "موڈیفائرز", "मॉडिफ़ायर", "المحددات", "سطح دسترسی", "Modifier"),
+        "jcat_ERRORS_THREADS" to tr("Errors & Threads", "এরর ও থ্রেড (try/lock)", "ایرر اور تھریڈز", "त्रुटि और थ्रेड", "الأخطاء والخيوط", "خطاها و نخ‌ها", "Error & Thread"),
+        "jcat_COLLECTIONS_APIS" to tr("Collections & APIs", "লিস্ট, ম্যাপ ও API", "لسٹ اور میپ", "लिस्ट, मैप व API", "المجموعات و API", "لیست، مپ و API", "Koleksi & API"),
+
+        "smali_equiv_label" to tr("Compiled Android Smali", "অ্যান্ড্রয়েডে কম্পাইল হওয়া স্মালি রূপ", "اینڈرائیڈ سمالی میں متبادل", "संकलित एंड्रॉइड स्माली रूप", "المكافئ بعد الترجمة إلى سمالي", "خروجی کامپایل‌شده در سمالی", "Hasil Kompilasi Smali"),
+        "java_usage_label" to tr("Professional Java Example", "প্রফেশনাল জাভা কোড উদাহরণ", "پروفیشنل جاوا کوڈ کی مثال", "प्रोफेशनल जावा कोड उदाहरण", "مثال احترافي بلغة جافا", "نمونه کد حرفه‌ای جاوا", "Contoh Kode Java Profesional"),
+        "empty_java_search_title" to tr("No matching Java keywords found", "কোনো জাভা কীওয়ার্ড পাওয়া যায়নি", "کوئی جاوا کی ورڈ نہیں ملا", "कोई जावा कीवर्ड नहीं मिला", "لم يتم العثور على كلمات مطابقة", "هیچ کلیدواژه‌ای یافت نشد", "Kata kunci Java tidak ditemukan"),
+        "empty_java_search_sub" to tr("Try another search term or reset the category filter.", "অন্য কোনো শব্দ লিখে খুঁজুন অথবা ক্যাটাগরি ফিল্টার পরিবর্তন করুন।", "کوئی دوسرا لفظ آزمائیں یا فلٹر صاف کریں۔", "कोई दूसरा शब्द आज़माएं या फ़िल्टर हटाएं।", "جرب كلمة أخرى أو امسح التصفية.", "واژه دیگری را امتحان کنید یا فیلتر را بردارید.", "Coba kata lain atau hapus filter kategori."),
+
+        "java_mem_title" to tr(
+            "Interactive Java Stack vs Heap Memory Explorer",
+            "ইন্টারঅ্যাক্টিভ জাভা Stack বনাম Heap মেমোরি ভিজ্যুয়ালাইজার",
+            "انٹرایکٹو جاوا اسٹیک بمقابلہ ہیپ میموری ویژولائزر",
+            "इंटरैक्टिव जावा Stack बनाम Heap मेमोरी विज़ुअलाइज़र",
+            "مستكشف ذاكرة Stack مقابل Heap التفاعلي في جافا",
+            "شبیه‌ساز تعاملی حافظه Stack در برابر Heap در جاوا",
+            "Visualisasi Interaktif Memori Stack vs Heap Java"
+        ),
+        "java_mem_desc" to tr(
+            "Tap a scenario below to see where Java stores local primitives vs `new` objects in RAM—and how Dalvik registers reference them.",
+            "নিচের যেকোনো একটি দৃশ্যপটে ট্যাপ করে দেখুন জাভা কীভাবে লোকাল ভেরিয়েবল (Stack) এবং অবজেক্ট (Heap) র‍্যামে সাজিয়ে রাখে এবং কেন `==` ও `.equals()` আলাদা কাজ করে!",
+            "نیچے کوئی منظر منتخب کریں اور دیکھیں کہ جاوا متغیرات (Stack) اور آبجیکٹس (Heap) کو میموری میں کیسے رکھتا ہے۔",
+            "नीचे कोई परिदृश्य चुनें और देखें कि जावा लोकल मान (Stack) और ऑब्जेक्ट (Heap) को RAM में कैसे रखता है।",
+            "اختر سيناريو أدناه لترى أين تخزن جافا المتغيرات المحلية مقارنة بالكائنات في الذاكرة الحية.",
+            "یکی از حالت‌های زیر را انتخاب کنید تا ببینید جاوا متغیرها و اشیاء را چگونه در Stack و Heap ذخیره می‌کند.",
+            "Pilih skenario di bawah untuk melihat bagaimana Java menyimpan primitif di Stack dan objek di Heap."
+        ),
+        "java_stack_title" to tr("STACK FRAME (Fast Local Slots / Registers)", "STACK মেমোরি (দ্রুত লোকাল ভেরিয়েবল ও রেজিস্টার)", "STACK فریم ( تیز لوکل سلاٹس)", "STACK मेमोरी (लोकल स्लॉट / रजिस्टर)", "ذاكرة STACK (المتغيرات المحلية السريعة)", "حافظه STACK (متغیرهای محلی سریع)", "MEMORI STACK (Slot Lokal Cepat)"),
+        "java_heap_title" to tr("HEAP MEMORY (Objects Created with new)", "HEAP মেমোরি (new দিয়ে তৈরি আসল অবজেক্টসমূহ)", "HEAP میموری (آبجیکٹس کا ذخیرہ)", "HEAP मेमोरी (new से बने ऑब्जेक्ट)", "ذاكرة HEAP (الكائنات المنشأة بـ new)", "حافظه HEAP (اشیاء ساخته‌شده با new)", "MEMORI HEAP (Objek di RAM)"),
+        "java_cheat_primitives" to tr(
+            "1. All 8 Java Primitive Types & Bit Sizes",
+            "১. জাভার ৮টি প্রিমিটিভ ডেটা টাইপ, মেমোরি সাইজ ও সীমা",
+            "1. جاوا کی تمام 8 بنیادی ڈیٹا ٹائپس اور سائز",
+            "1. जावा के सभी 8 प्रिमिटिव डेटा टाइप और मेमोरी आकार",
+            "1. الأنواع الأساسية الثمانية في جافا وأحجامها",
+            "۱. هشت نوع داده پایه جاوا و اندازه حافظه آن‌ها",
+            "1. 8 Tipe Data Primitif Java & Ukuran Memori"
+        ),
+        "java_cheat_modifiers" to tr(
+            "2. Java Access Modifiers Visibility Rules",
+            "২. জাভা অ্যাক্সেস মডিফায়ার (কোথা থেকে কোনটি দেখা যায়)",
+            "2. جاوا ایکسس موڈیفائرز کے قوانین",
+            "2. जावा एक्सेस मॉडिफ़ायर दृश्यता नियम",
+            "2. قواعد محددات الوصول والرؤية في جافا",
+            "۲. جدول سطح دسترسی در جاوا (Access Modifiers)",
+            "2. Aturan Visibilitas Access Modifier Java"
+        ),
+        "java_cheat_oop" to tr(
+            "3. Golden Java Interview & Architecture Rules",
+            "৩. প্রফেশনাল জাভা ও OOP-এর গোল্ডেন নিয়মাবলী",
+            "3. پروفیشنل جاوا اور OOP کے سنہری اصول",
+            "3. प्रोफेशनल जावा और OOP के सुनहरे नियम",
+            "3. القواعد الذهبية في هندسة جافا والبرمجة الكائنية",
+            "۳. قوانین طلایی شی‌گرایی و معماری حرفه‌ای جاوا",
+            "3. Aturan Emas OOP & Arsitektur Java Profesional"
+        ),
+
+        "java_compiler_title" to tr(
+            "Live Java → Smali Signature & Method Converter",
+            "লাইভ জাভা → স্মালি কোড ও সিগনেচার কনভার্টার",
+            "لائیو جاوا → سمالی سگنیچر اور میتھڈ کنورٹر",
+            "लाइव जावा → स्माली सिग्नेचर और मेथड कन्वर्टर",
+            "محول تواقيع ودوال جافا إلى سمالي المباشر",
+            "مبدل زنده امضا و متدهای جاوا به کد سمالی",
+            "Konverter Langsung Metode & Tanda Tangan Java → Smali"
+        ),
+        "java_compiler_desc" to tr(
+            "Type or pick any Java method, field, or class header below—instantly inspect its parsed structure and exact Android DEX Smali output!",
+            "নিচে যেকোনো জাভা মেথড, ভেরিয়েবল ফিল্ড বা ক্লাসের লাইন লিখুন অথবা রেডিমেড উদাহরণে ট্যাপ করুন—সাথে সাথে সেটির পূর্ণাঙ্গ ব্যাখ্যা এবং কম্পাইল হওয়া স্মালি কোড তৈরি হয়ে যাবে!",
+            "نیچے کوئی بھی جاوا میتھڈ، فیلڈ یا کلاس لکھیں یا مثال منتخب کریں—فوراً اس کی وضاحت اور سمالی بائٹ کوڈ دیکھیں!",
+            "नीचे कोई भी जावा मेथड, फ़ील्ड या क्लास हेडर लिखें या चुनें—तुरंत उसका विश्लेषण और सटीक एंड्रॉइड स्माली कोड देखें!",
+            "اكتب أو اختر أي دالة أو حقل أو فئة بلغة جافا لترى تحليلها الدقيق وشيفرة سمالي المقابلة لها فوراً!",
+            "هر متد، فیلد یا کلاس جاوا را در پایین بنویسید یا انتخاب کنید تا ساختار آن و کد دقیق سمالی فوراً تولید شود!",
+            "Ketik atau pilih header metode, field, atau kelas Java untuk melihat struktur dan hasil bytecode Smali secara instan!"
+        ),
+        "java_presets_label" to tr(
+            "Tap a Sample Java Declaration",
+            "পরীক্ষা করার জন্য একটি জাভা উদাহরণে ট্যাপ করুন",
+            "جانچنے کے لیے کسی جاوا مثال پر ٹیپ کریں",
+            "परखने के लिए किसी जावा उदाहरण पर टैप करें",
+            "اضغط على مثال جافا جاهز للتجربة",
+            "برای آزمایش روی یکی از نمونه‌های جاوا بزنید",
+            "Ketuk Contoh Deklarasi Java"
+        ),
+        "java_compiled_smali_label" to tr(
+            "Generated Smali Bytecode Skeleton",
+            "স্বয়ংক্রিয়ভাবে তৈরি স্মালি বাইটকোড",
+            "خودکار تیار شدہ سمالی بائٹ کوڈ",
+            "स्वचालित जनित स्माली बाइटकोड",
+            "هيكل شيفرة سمالي المولد تلقائياً",
+            "اسکلت کد سمالی تولیدشده به صورت خودکار",
+            "Kerangka Bytecode Smali yang Dihasilkan"
+        ),
+        "java_decoded_summary_label" to tr(
+            "Java Declaration Breakdown",
+            "জাভা স্টেটমেন্টের সহজ বিশ্লেষণ",
+            "جاوا لائن کا آسان تجزیہ",
+            "जावा स्टेटमेंट का सरल विश्लेषण",
+            "تفكيك وشرح تصريح جافا",
+            "تجزیه و کالبدشکافی دستور جاوا",
+            "Uraian Deklarasi Java"
+        ),
+        "course_search_hint" to tr(
+            "Search lessons in this track...",
+            "এই কোর্সের যেকোনো অধ্যায় বা টপিক খুঁজুন...",
+            "اس کورس میں کوئی بھی سبق تلاش کریں...",
+            "इस कोर्स का कोई भी अध्याय खोजें...",
+            "ابحث عن درس في هذا المسار...",
+            "جستجوی فصل یا موضوع در این دوره...",
+            "Cari modul di jalur ini..."
+        )
     )
 
     fun getString(key: String, language: AppLanguage): String {

@@ -235,115 +235,10 @@ val isDark = prefs.getBoolean("dark_mode", true)"""
                 )
             )
         )
-    )
+    ) + TrackExtraCurriculumData.extraAndroidLessons
 
-    val javaLessons: List<Lesson> = listOf(
-        Lesson(
-            id = "java_01",
-            track = TrackType.JAVA,
-            level = LearningLevel.BEGINNER,
-            title = localized(
-                en = "01. Java Variables, Primitives & Memory Types",
-                bn = "০১. জাভা ভেরিয়েবল ও ডেটা টাইপ (একদম শুরু)",
-                ur = "01. جاوا متغیرات اور ڈیٹا ٹائپس",
-                hi = "01. जावा वेरिएबल्स और डेटा टाइप्स",
-                ar = "01. متغيرات جافا وأنواع البيانات الأساسية",
-                fa_af = "۰۱. متغیرها و انواع داده در جاوا",
-                in_id = "01. Variabel Java & Tipe Data Primitif"
-            ),
-            subtitle = localized(
-                en = "How int, long, boolean, and String map directly to Dalvik registers.",
-                bn = "কীভাবে int, long, boolean এবং String মেমোরি ও স্মালি রেজিস্টারে কাজ করে।",
-                ur = "جانیں کہ int، long، boolean اور String میموری اور رجسٹرز میں کیسے کام کرتے ہیں۔",
-                hi = "जानें कि int, long, boolean और String मेमोरी और रजिस्टर में कैसे काम करते हैं।",
-                ar = "كيف ترتبط أنواع جافا الأساسية بمسجلات دالفيك مباشرة.",
-                fa_af = "نحوه نگاشت مستقیم انواع int، long، boolean و String به رجسترهای دالویک.",
-                in_id = "Bagaimana int, long, boolean, dan String dipetakan ke register Dalvik."
-            ),
-            estimatedMinutes = 7,
-            sections = listOf(
-                LessonSection(
-                    title = localized(
-                        en = "Typed Containers in Java",
-                        bn = "জাভায় নির্দিষ্ট টাইপের বক্স বা ভেরিয়েবল",
-                        ur = "جاوا میں مخصوص قسم کے متغیرات",
-                        hi = "जावा में निश्चित प्रकार के वेरिएबल",
-                        ar = "الحاويات ذات الأنواع الصارمة في جافا",
-                        fa_af = "ظرف‌های دارای نوع مشخص در زبان جاوا",
-                        in_id = "Wadah Bertipe Ketat di Java"
-                    ),
-                    content = localized(
-                        en = "Java is statically typed: `int` (32-bit `I`), `long` (64-bit `J`), `boolean` (`Z`), and `String` (`Ljava/lang/String;`) each have strict compiler signatures.",
-                        bn = "জাভায় প্রতিটি ভেরিয়েবলের ধরন আগে থেকে বলে দিতে হয়: `int` (স্মালিতে `I`), `long` (`J`), `boolean` (`Z`), এবং `String` (`Ljava/lang/String;`)।",
-                        ur = "جاوا میں ہر متغیر کی قسم طے ہوتی ہے: `int` (`I`)، `long` (`J`)، `boolean` (`Z`) اور `String` (`Ljava/lang/String;`)۔",
-                        hi = "जावा में हर वेरिएबल का प्रकार तय होता है: `int` (`I`), `long` (`J`), `boolean` (`Z`), और `String` (`Ljava/lang/String;`)।",
-                        ar = "تتطلب جافا تحديد نوع كل متغير بدقة: `int` (`I`) و `long` (`J`) و `boolean` (`Z`) و `String`.",
-                        fa_af = "در جاوا نوع هر متغیر از ابتدا مشخص است: `int` (`I`)، `long` (`J`)، `boolean` (`Z`) و `String`.",
-                        in_id = "Java bertipe statis: `int` (`I`), `long` (`J`), `boolean` (`Z`), dan `String` (`Ljava/lang/String;`)."
-                    ),
-                    javaCode = """int level = 5;
-long xp = 12000L;
-boolean isPremium = true;
-String coder = "Morsalin";"""
-                )
-            )
-        ),
-        Lesson(
-            id = "java_02",
-            track = TrackType.JAVA,
-            level = LearningLevel.BEGINNER,
-            title = localized(
-                en = "02. Java Methods, Classes & Constructors",
-                bn = "০২. জাভা ক্লাস, মেথড ও কনস্ট্রাক্টর (OOP)",
-                ur = "02. جاوا کلاسز، میتھڈز اور کنسٹرکٹر (OOP)",
-                hi = "02. जावा क्लास, मेथड और कंस्ट्रक्टर (OOP)",
-                ar = "02. الفئات والدوال والبانيات في جافا (OOP)",
-                fa_af = "۰۲. کلاس‌ها، متدها و سازنده‌ها در جاوا (OOP)",
-                in_id = "02. Kelas, Metode & Konstruktor Java (OOP)"
-            ),
-            subtitle = localized(
-                en = "Build reusable blueprints with fields, constructors, and instance methods.",
-                bn = "ক্লাসের ব্লুপ্রিন্ট তৈরি, কনস্ট্রাক্টর এবং মেথড লেখার পরিষ্কার নিয়ম।",
-                ur = "کلاس کا نقشہ بنانا، کنسٹرکٹر اور میتھڈز لکھنے کا آسان طریقہ۔",
-                hi = "क्लास ब्लूप्रिंट, कंस्ट्रक्टर और मेथड लिखने का स्पष्ट तरीका।",
-                ar = "ابنِ قوالب برمجية منظمة تحتوي على الحقول والبانيات والدوال.",
-                fa_af = "ساخت قالب‌های شیءگرا شامل فیلدها، سازنده‌ها و متدها.",
-                in_id = "Bangun cetak biru kelas dengan field, konstruktor, dan metode."
-            ),
-            estimatedMinutes = 9,
-            sections = listOf(
-                LessonSection(
-                    title = localized(
-                        en = "How a Java Class Maps to <init> and iget",
-                        bn = "জাভা ক্লাস কীভাবে স্মালির <init> ও iget-এ রূপান্তরিত হয়",
-                        ur = "جاوا کلاس کس طرح سمالی کے <init> اور iget میں بدلتی ہے",
-                        hi = "जावा क्लास कैसे स्माली के <init> और iget में बदलती है",
-                        ar = "كيف تتحول فئة جافا إلى <init> و iget في سمالي",
-                        fa_af = "نحوه تبدیل کلاس جاوا به <init> و iget در سمالی",
-                        in_id = "Bagaimana Kelas Java Menjadi <init> dan iget"
-                    ),
-                    content = localized(
-                        en = "A constructor initializes fields via `iput` inside `<init>`, while getter methods read fields via `iget` from `p0` (`this`).",
-                        bn = "জাভার কনস্ট্রাক্টর স্মালিতে `<init>` মেথড হয়ে `iput` দিয়ে মান বসায়, আর গেটার মেথড `p0` (`this`) থেকে `iget` দিয়ে মান পড়ে আনে।",
-                        ur = "جاوا کا کنسٹرکٹر سمالی میں `<init>` بن جاتا ہے جو `iput` سے قیمت رکھتا ہے، اور گیٹر میتھڈ `iget` سے قیمت پڑھتا ہے۔",
-                        hi = "जावा कंस्ट्रक्टर स्माली में `<init>` बनकर `iput` से मान रखता है, और गेटर मेथड `iget` से मान पढ़ता है।",
-                        ar = "يتحول الباني إلى دالة `<init>` تكتب الحقول بـ `iput`، بينما تقرأها الدوال بـ `iget` من `p0`.",
-                        fa_af = "سازنده جاوا در سمالی به `<init>` تبدیل شده و با `iput` مقداردهی می‌کند و متدها با `iget` آن را می‌خوانند.",
-                        in_id = "Konstruktor Java menjadi `<init>` yang mengisi field lewat `iput`, sedangkan getter membaca lewat `iget`."
-                    ),
-                    javaCode = """public class Account {
-    private int balance;
-    public Account(int initial) {
-        this.balance = initial;
-    }
-    public int getBalance() {
-        return this.balance;
-    }
-}"""
-                )
-            )
-        )
-    )
+    val javaLessons: List<Lesson> =
+        JavaBeginnerCurriculumData.lessons + JavaAdvancedCurriculumData.lessons
 
     val kotlinLessons: List<Lesson> = listOf(
         Lesson(
@@ -448,7 +343,7 @@ fun describeCategory(code: Int): String = when (code) {
                 )
             )
         )
-    )
+    ) + TrackExtraCurriculumData.extraKotlinLessons
 
     val pythonLessons: List<Lesson> = listOf(
         Lesson(
@@ -558,7 +453,7 @@ def scan_smali_tree(root_dir: str, needle: str):
                 )
             )
         )
-    )
+    ) + TrackExtraCurriculumData.extraPythonLessons
 
     val allLessons: List<Lesson> = androidLessons + javaLessons + kotlinLessons + pythonLessons
 }

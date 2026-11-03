@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.data.ComparisonRepository
+import com.example.data.JavaReferenceData
 import com.example.data.QuizRepository
 import com.example.data.SimulationRepository
 import com.example.data.SmaliReferenceData
@@ -16,6 +17,8 @@ import com.example.localization.AppLanguage
 import com.example.localization.LocalizationManager
 import com.example.model.CodeComparison
 import com.example.model.InstructionCategory
+import com.example.model.JavaKeywordCategory
+import com.example.model.JavaKeywordItem
 import com.example.model.Lesson
 import com.example.model.LocalizedContent
 import com.example.model.RegisterSimulation
@@ -60,12 +63,23 @@ data class SmaliUiState(
     val bookmarkedLessonIds: Set<String> = emptySet(),
     val userProgress: UserProgressEntity = UserProgressEntity(),
 
+    // Course Track Search
+    val courseSearchQuery: String = "",
+
     // Smali A-Z Master Hub (0 = Roadmap, 1 = Opcodes, 2 = Syntax & Calculator, 3 = Decoder)
     val smaliHubSection: Int = 0,
     val decoderInput: String = SmaliReferenceData.sampleSignatures.first(),
     val regCalcIsStatic: Boolean = false,
     val regCalcLocals: Int = 2,
     val regCalcParams: Int = 2,
+
+    // Java Zero-to-Pro Master Hub (0 = Roadmap, 1 = Keywords, 2 = OOP & RAM, 3 = Java->Smali)
+    val javaHubSection: Int = 0,
+    val javaKeywordQuery: String = "",
+    val selectedJavaCategory: JavaKeywordCategory? = null,
+    val selectedJavaKeyword: JavaKeywordItem? = null,
+    val javaMemoryScenarioIndex: Int = 0,
+    val javaConverterInput: String = JavaReferenceData.sampleJavaDeclarations.first(),
 
     // Code Studio
     val selectedComparison: CodeComparison = ComparisonRepository.comparisons.first(),
@@ -364,12 +378,54 @@ class SmaliViewModel(application: Application) : AndroidViewModel(application) {
         _uiState.update { it.copy(regCalcParams = params.coerceIn(0, 6)) }
     }
 
+    fun setCourseSearchQuery(query: String) {
+        _uiState.update { it.copy(courseSearchQuery = query) }
+    }
+
+    fun openJavaHubSection(section: Int) {
+        _uiState.update {
+            it.copy(
+                selectedTrack = TrackType.JAVA,
+                currentTab = NavTab.CURRICULUM,
+                javaHubSection = section.coerceIn(0, 3),
+                activeLesson = null,
+                courseSearchQuery = ""
+            )
+        }
+    }
+
+    fun setJavaHubSection(section: Int) {
+        _uiState.update { it.copy(javaHubSection = section.coerceIn(0, 3)) }
+    }
+
+    fun setJavaKeywordQuery(query: String) {
+        _uiState.update { it.copy(javaKeywordQuery = query) }
+    }
+
+    fun selectJavaCategory(category: JavaKeywordCategory?) {
+        _uiState.update { it.copy(selectedJavaCategory = category) }
+    }
+
+    fun openJavaKeywordDetail(item: JavaKeywordItem?) {
+        _uiState.update { it.copy(selectedJavaKeyword = item) }
+    }
+
+    fun selectJavaMemoryScenario(index: Int) {
+        val maxIdx = (JavaReferenceData.memoryScenarios.size - 1).coerceAtLeast(0)
+        _uiState.update { it.copy(javaMemoryScenarioIndex = index.coerceIn(0, maxIdx)) }
+    }
+
+    fun updateJavaConverterInput(input: String) {
+        _uiState.update { it.copy(javaConverterInput = input) }
+    }
+
     fun selectTrack(track: TrackType) {
         _uiState.update {
             it.copy(
                 selectedTrack = track,
                 currentTab = NavTab.CURRICULUM,
-                activeLesson = null
+                activeLesson = null,
+                courseSearchQuery = ""
             )
         }
     }

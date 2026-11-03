@@ -1,20 +1,29 @@
 package com.example
 
+import android.app.Application
 import android.content.Context
 import androidx.test.core.app.ApplicationProvider
 import com.example.data.CurriculumRepository
 import com.example.data.InstructionRepository
+import com.example.data.JavaKeywordsData
+import com.example.data.JavaReferenceData
 import com.example.data.SmaliReferenceData
+import com.example.data.TrackRepository
 import com.example.localization.AppLanguage
 import com.example.localization.LocalizationManager
+import com.example.model.TrackType
 import com.example.util.IssueSeverity
 import com.example.util.SmaliAnalyzer
+import com.example.viewmodel.NavTab
+import com.example.viewmodel.SmaliViewModel
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotEquals
+import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.robolectric.Robolectric
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 
@@ -31,16 +40,74 @@ class ExampleRobolectricTest {
 
   @Test
   fun `main activity launches without crash`() {
-    val controller = org.robolectric.Robolectric.buildActivity(MainActivity::class.java).setup()
+    val controller = Robolectric.buildActivity(MainActivity::class.java).setup()
     val activity = controller.get()
-    org.junit.Assert.assertNotNull(activity)
+    assertNotNull(activity)
   }
 
   @Test
-  fun `curriculum repository has complete lessons across all levels`() {
-    val lessons = CurriculumRepository.lessons
-    assertTrue(lessons.size >= 20)
+  fun `curriculum repository has complete Zero-to-Pro lessons across Smali, Java, and all programming tracks`() {
     assertEquals(16, CurriculumRepository.smaliLessons.size)
+    assertEquals(16, TrackRepository.javaLessons.size)
+    assertEquals(6, TrackRepository.androidLessons.size)
+    assertEquals(6, TrackRepository.kotlinLessons.size)
+    assertEquals(5, TrackRepository.pythonLessons.size)
+    assertEquals(49, CurriculumRepository.lessons.size)
+  }
+
+  @Test
+  fun `java keywords dictionary and stack-heap memory scenarios are rich and localized`() {
+    assertTrue(JavaKeywordsData.keywords.size >= 32)
+    val bnSearch = JavaKeywordsData.search("অপরিবর্তনীয়", null, AppLanguage.BENGALI)
+    assertTrue(bnSearch.isNotEmpty())
+
+    assertEquals(4, JavaReferenceData.memoryScenarios.size)
+    assertEquals(8, JavaReferenceData.primitiveCheatSheet.size)
+
+    JavaKeywordsData.keywords.forEach { item ->
+      AppLanguage.entries.forEach { lang ->
+        assertTrue(item.purposeContent.get(lang).isNotBlank())
+        assertTrue(item.detailedExplanationContent.get(lang).isNotBlank())
+        assertTrue(item.commonMistakeContent.get(lang).isNotBlank())
+      }
+    }
+  }
+
+  @Test
+  fun `live java to smali converter compiles methods, constructors, fields, and classes`() {
+    val methodRes = JavaReferenceData.compileJavaToSmali(
+      "public boolean verifyToken(String token, int pin)"
+    )
+    assertTrue(methodRes.generatedSmali.contains(".method public verifyToken(Ljava/lang/String;I)Z"))
+    assertTrue(methodRes.generatedSmali.contains(".param p1, \"token\""))
+    assertTrue(methodRes.generatedSmali.contains(".param p2, \"pin\""))
+    assertTrue(methodRes.plainExplanation.get(AppLanguage.BENGALI).isNotBlank())
+
+    val ctorRes = JavaReferenceData.compileJavaToSmali(
+      "public UserAccount(String username, boolean isVip)"
+    )
+    assertTrue(ctorRes.generatedSmali.contains(".method public constructor <init>(Ljava/lang/String;Z)V"))
+
+    val fieldRes = JavaReferenceData.compileJavaToSmali(
+      "private final String secretApiKey = \"PRO_KEY\";"
+    )
+    assertTrue(fieldRes.generatedSmali.contains(".field private final secretApiKey:Ljava/lang/String;"))
+
+    val classRes = JavaReferenceData.compileJavaToSmali(
+      "public final class PaymentService extends BaseService implements Runnable"
+    )
+    assertTrue(classRes.generatedSmali.contains(".class public final Lcom/example/PaymentService;"))
+    assertTrue(classRes.generatedSmali.contains(".implements Ljava/lang/Runnable;"))
+  }
+
+  @Test
+  fun `viewmodel opens java master hub sections cleanly`() {
+    val app = ApplicationProvider.getApplicationContext<Application>()
+    val vm = SmaliViewModel(app)
+    vm.openJavaHubSection(2)
+    assertEquals(NavTab.CURRICULUM, vm.uiState.value.currentTab)
+    assertEquals(TrackType.JAVA, vm.uiState.value.selectedTrack)
+    assertEquals(2, vm.uiState.value.javaHubSection)
   }
 
   @Test
@@ -78,6 +145,10 @@ class ExampleRobolectricTest {
       AppLanguage.entries.forEach { lang ->
         assertTrue(lesson.title.get(lang).isNotBlank())
         assertTrue(lesson.subtitle.get(lang).isNotBlank())
+        lesson.sections.forEach { sec ->
+          assertTrue(sec.title.get(lang).isNotBlank())
+          assertTrue(sec.content.get(lang).isNotBlank())
+        }
       }
     }
   }

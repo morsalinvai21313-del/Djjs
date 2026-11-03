@@ -335,6 +335,103 @@ fun DashboardScreen(
                 }
             }
 
+            // 3B. Prominent Java Programming Zero-to-Pro Master Hub Spotlight Card
+            item {
+                IosGroupedCard(
+                    modifier = Modifier.testTag("java_master_hub_card")
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(18.dp)
+                    ) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            IosIconSquircle(
+                                icon = Icons.Default.Coffee,
+                                tint = IosOrange,
+                                boxSize = 42.dp,
+                                iconSize = 22.dp
+                            )
+                            Spacer(Modifier.width(12.dp))
+                            Column(modifier = Modifier.weight(1f)) {
+                                Text(
+                                    text = localizedString("java_hub_banner_badge"),
+                                    fontSize = 10.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = IosOrange
+                                )
+                                Text(
+                                    text = localizedString("java_hub_banner_title"),
+                                    fontSize = 17.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = palette.textPrimary
+                                )
+                            }
+                        }
+
+                        Spacer(Modifier.height(10.dp))
+
+                        Text(
+                            text = localizedString("java_hub_banner_subtitle"),
+                            fontSize = 13.sp,
+                            color = palette.textSecondary,
+                            lineHeight = 19.sp
+                        )
+
+                        Spacer(Modifier.height(14.dp))
+
+                        // 4 Quick Java Sub-Hub Pills (Zero->Pro, Keywords, OOP & RAM, Java->Smali)
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            val javaHubQuickLabels = listOf(
+                                0 to localizedString("java_tab_roadmap"),
+                                1 to localizedString("java_tab_keywords"),
+                                2 to localizedString("java_tab_memory"),
+                                3 to localizedString("java_tab_compiler")
+                            )
+                            javaHubQuickLabels.forEach { (secIdx, label) ->
+                                Surface(
+                                    shape = RoundedCornerShape(10.dp),
+                                    color = palette.pillBackground,
+                                    modifier = Modifier
+                                        .weight(1f)
+                                        .defaultMinSize(minHeight = 40.dp)
+                                        .clip(RoundedCornerShape(10.dp))
+                                        .clickable { viewModel.openJavaHubSection(secIdx) }
+                                        .testTag("dash_java_hub_pill_$secIdx")
+                                ) {
+                                    Box(
+                                        contentAlignment = Alignment.Center,
+                                        modifier = Modifier.padding(horizontal = 6.dp, vertical = 8.dp)
+                                    ) {
+                                        Text(
+                                            text = label,
+                                            fontSize = 11.sp,
+                                            fontWeight = FontWeight.SemiBold,
+                                            color = palette.textPrimary,
+                                            maxLines = 1,
+                                            overflow = TextOverflow.Ellipsis
+                                        )
+                                    }
+                                }
+                            }
+                        }
+
+                        Spacer(Modifier.height(14.dp))
+
+                        MorsalinButton(
+                            text = localizedString("java_hub_cta"),
+                            onClick = { viewModel.openJavaHubSection(0) },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .testTag("open_java_hub_btn")
+                        )
+                    }
+                }
+            }
+
             // 4. Structured Learning Tracks (iOS Inset Grouped List)
             item {
                 Column {

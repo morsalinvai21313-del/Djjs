@@ -254,3 +254,55 @@ data class SmaliDecodedResult(
     val registersUsed: String,
     val plainSummary: LocalizedContent
 )
+
+enum class JavaKeywordCategory(val labelKey: String) {
+    TYPES_VARS("jcat_TYPES_VARS"),
+    CONTROL_FLOW("jcat_CONTROL_FLOW"),
+    OOP_CLASSES("jcat_OOP_CLASSES"),
+    MODIFIERS("jcat_MODIFIERS"),
+    ERRORS_THREADS("jcat_ERRORS_THREADS"),
+    COLLECTIONS_APIS("jcat_COLLECTIONS_APIS")
+}
+
+data class JavaKeywordItem(
+    val keyword: String,
+    val badge: String,
+    val category: JavaKeywordCategory,
+    val syntax: String,
+    val smaliEquivalent: String,
+    val purposeContent: LocalizedContent,
+    val detailedExplanationContent: LocalizedContent,
+    val javaExample: String,
+    val commonMistakeContent: LocalizedContent
+)
+
+data class JavaMemoryScenario(
+    val id: String,
+    val tabLabel: LocalizedContent,
+    val title: LocalizedContent,
+    val javaSnippet: String,
+    val stackFrameSlots: List<Pair<String, String>>,
+    val heapObjects: List<Pair<String, String>>,
+    val smaliEquivalent: String,
+    val explanation: LocalizedContent
+)
+
+data class JavaCheatItem(
+    val symbol: String,
+    val badge: String,
+    val title: LocalizedContent,
+    val detail: LocalizedContent,
+    val example: String
+)
+
+data class JavaDecodedResult(
+    val rawJava: String,
+    val statementKind: LocalizedContent,
+    val modifiersSummary: String,
+    val memberName: String,
+    val returnOrFieldType: String,
+    val parametersSummary: String,
+    val generatedSmali: String,
+    val plainExplanation: LocalizedContent
+)
+

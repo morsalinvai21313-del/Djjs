@@ -86,6 +86,14 @@ fun CurriculumScreen(
     val trackLessons = CurriculumRepository.getLessonsForTrack(uiState.selectedTrack)
     val trackColor = Color(uiState.selectedTrack.badgeColorHex)
 
+    uiState.selectedJavaKeyword?.let { kwItem ->
+        JavaKeywordDetailModal(
+            item = kwItem,
+            lang = lang,
+            onDismiss = { viewModel.openJavaKeywordDetail(null) }
+        )
+    }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -114,7 +122,7 @@ fun CurriculumScreen(
                             shape = CircleShape,
                             color = if (selected) badgeColor else palette.pillBackground,
                             modifier = Modifier
-                                .defaultMinSize(minHeight = 40.dp)
+                                .defaultMinSize(minHeight = 44.dp)
                                 .border(
                                     width = 0.8.dp,
                                     color = if (selected) badgeColor else palette.separator,
@@ -186,90 +194,159 @@ fun CurriculumScreen(
                             color = palette.textSecondary,
                             lineHeight = 19.sp
                         )
+
+                        if (uiState.selectedTrack == TrackType.SMALI) {
+                            Spacer(Modifier.height(12.dp))
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                            ) {
+                                listOf(
+                                    1 to localizedString("smali_tab_opcodes"),
+                                    2 to localizedString("smali_tab_cheatsheet"),
+                                    3 to localizedString("smali_tab_decoder")
+                                ).forEach { (secIdx, label) ->
+                                    Surface(
+                                        shape = RoundedCornerShape(10.dp),
+                                        color = palette.pillBackground,
+                                        modifier = Modifier
+                                            .weight(1f)
+                                            .defaultMinSize(minHeight = 38.dp)
+                                            .clip(RoundedCornerShape(10.dp))
+                                            .clickable { viewModel.openSmaliHubSection(secIdx) }
+                                    ) {
+                                        Box(
+                                            contentAlignment = Alignment.Center,
+                                            modifier = Modifier.padding(horizontal = 6.dp, vertical = 8.dp)
+                                        ) {
+                                            Text(
+                                                text = label,
+                                                fontSize = 11.sp,
+                                                fontWeight = FontWeight.SemiBold,
+                                                color = palette.primaryBlue,
+                                                maxLines = 1,
+                                                overflow = TextOverflow.Ellipsis
+                                            )
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
 
-            // 3. Grouped Modules by LearningLevel (Zero -> Pro)
-            LearningLevel.entries.forEach { level ->
-                val levelLessons = trackLessons.filter { it.level == level }
-                if (levelLessons.isNotEmpty()) {
-                    item(key = "stage_${level.name}") {
-                        Column {
-                            IosSectionTitle(
-                                title = localizedString(level.titleKey),
-                                trailingText = localizedFormat("lessons_count_fmt", levelLessons.size)
-                            )
-                            Spacer(Modifier.height(4.dp))
-                            IosGroupedCard {
-                                levelLessons.forEachIndexed { idx, lesson ->
-                                    val isDone = uiState.completedLessonIds.contains(lesson.id)
-                                    val isSaved = uiState.bookmarkedLessonIds.contains(lesson.id)
+            // 3. Java Zero-to-Pro 4-Way Master Hub OR Searchable Track Roadmap
+            if (uiState.selectedTrack == TrackType.JAVA) {
+                javaMasterHubItems(
+                    uiState = uiState,
+                    viewModel = viewModel,
+                    javaLessons = trackLessons,
+                    lang = lang
+                )
+            } else {
+                item(key = "track_search_${uiState.selectedTrack.id}") {
+                    CourseTrackSearchField(
+                        query = uiState.courseSearchQuery,
+                        onQueryChange = { viewModel.setCourseSearchQuery(it) }
+                    )
+                }
 
-                                    Row(
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .defaultMinSize(minHeight = 72.dp)
-                                            .clickable { viewModel.openLesson(lesson) }
-                                            .padding(horizontal = 16.dp, vertical = 13.dp)
-                                            .testTag("lesson_row_${lesson.id}"),
-                                        verticalAlignment = Alignment.CenterVertically
-                                    ) {
-                                        Icon(
-                                            imageVector = if (isDone) Icons.Default.CheckCircle else Icons.Default.RadioButtonUnchecked,
-                                            contentDescription = null,
-                                            tint = if (isDone) IosGreen else trackColor,
-                                            modifier = Modifier.size(22.dp)
-                                        )
-                                        Spacer(Modifier.width(14.dp))
-                                        Column(modifier = Modifier.weight(1f)) {
-                                            Text(
-                                                text = lesson.title.get(lang),
-                                                fontSize = 15.sp,
-                                                fontWeight = FontWeight.SemiBold,
-                                                color = palette.textPrimary
-                                            )
-                                            Spacer(Modifier.height(3.dp))
-                                            Text(
-                                                text = lesson.subtitle.get(lang),
-                                                fontSize = 12.sp,
-                                                color = palette.textSecondary,
-                                                maxLines = 2,
-                                                lineHeight = 17.sp,
-                                                overflow = TextOverflow.Ellipsis
-                                            )
-                                            Spacer(Modifier.height(5.dp))
-                                            Text(
-                                                text = localizedFormat(
-                                                    "lesson_meta_fmt",
-                                                    lesson.estimatedMinutes,
-                                                    lesson.sections.size
-                                                ),
-                                                fontSize = 11.sp,
-                                                fontWeight = FontWeight.Medium,
-                                                color = palette.textMuted
-                                            )
-                                        }
-                                        if (isSaved) {
+                val q = uiState.courseSearchQuery.trim().lowercase()
+                val filteredTrackLessons = if (q.isEmpty()) {
+                    trackLessons
+                } else {
+                    trackLessons.filter { lesson ->
+                        lesson.title.get(lang).lowercase().contains(q) ||
+                            lesson.subtitle.get(lang).lowercase().contains(q) ||
+                            lesson.title.en.lowercase().contains(q) ||
+                            lesson.sections.any { sec ->
+                                sec.title.get(lang).lowercase().contains(q) ||
+                                    sec.content.get(lang).lowercase().contains(q)
+                            }
+                    }
+                }
+
+                LearningLevel.entries.forEach { level ->
+                    val levelLessons = filteredTrackLessons.filter { it.level == level }
+                    if (levelLessons.isNotEmpty()) {
+                        item(key = "stage_${uiState.selectedTrack.id}_${level.name}") {
+                            Column {
+                                IosSectionTitle(
+                                    title = localizedString(level.titleKey),
+                                    trailingText = localizedFormat("lessons_count_fmt", levelLessons.size)
+                                )
+                                Spacer(Modifier.height(4.dp))
+                                IosGroupedCard {
+                                    levelLessons.forEachIndexed { idx, lesson ->
+                                        val isDone = uiState.completedLessonIds.contains(lesson.id)
+                                        val isSaved = uiState.bookmarkedLessonIds.contains(lesson.id)
+
+                                        Row(
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .defaultMinSize(minHeight = 72.dp)
+                                                .clickable { viewModel.openLesson(lesson) }
+                                                .padding(horizontal = 16.dp, vertical = 13.dp)
+                                                .testTag("lesson_row_${lesson.id}"),
+                                            verticalAlignment = Alignment.CenterVertically
+                                        ) {
                                             Icon(
-                                                imageVector = Icons.Default.Bookmark,
+                                                imageVector = if (isDone) Icons.Default.CheckCircle else Icons.Default.RadioButtonUnchecked,
                                                 contentDescription = null,
-                                                tint = IosOrange,
-                                                modifier = Modifier
-                                                    .padding(horizontal = 6.dp)
-                                                    .size(18.dp)
+                                                tint = if (isDone) IosGreen else trackColor,
+                                                modifier = Modifier.size(22.dp)
+                                            )
+                                            Spacer(Modifier.width(14.dp))
+                                            Column(modifier = Modifier.weight(1f)) {
+                                                Text(
+                                                    text = lesson.title.get(lang),
+                                                    fontSize = 15.sp,
+                                                    fontWeight = FontWeight.SemiBold,
+                                                    color = palette.textPrimary
+                                                )
+                                            Spacer(Modifier.height(3.dp))
+                                                Text(
+                                                    text = lesson.subtitle.get(lang),
+                                                    fontSize = 12.sp,
+                                                    color = palette.textSecondary,
+                                                    maxLines = 2,
+                                                    lineHeight = 17.sp,
+                                                    overflow = TextOverflow.Ellipsis
+                                                )
+                                                Spacer(Modifier.height(5.dp))
+                                                Text(
+                                                    text = localizedFormat(
+                                                        "lesson_meta_fmt",
+                                                        lesson.estimatedMinutes,
+                                                        lesson.sections.size
+                                                    ),
+                                                    fontSize = 11.sp,
+                                                    fontWeight = FontWeight.Medium,
+                                                    color = palette.textMuted
+                                                )
+                                            }
+                                            if (isSaved) {
+                                                Icon(
+                                                    imageVector = Icons.Default.Bookmark,
+                                                    contentDescription = null,
+                                                    tint = IosOrange,
+                                                    modifier = Modifier
+                                                        .padding(horizontal = 6.dp)
+                                                        .size(18.dp)
+                                                )
+                                            }
+                                            Icon(
+                                                imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                                                contentDescription = null,
+                                                tint = palette.textMuted,
+                                                modifier = Modifier.size(20.dp)
                                             )
                                         }
-                                        Icon(
-                                            imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                                            contentDescription = null,
-                                            tint = palette.textMuted,
-                                            modifier = Modifier.size(20.dp)
-                                        )
-                                    }
 
-                                    if (idx < levelLessons.lastIndex) {
-                                        IosHairlineDivider(modifier = Modifier.padding(start = 52.dp))
+                                        if (idx < levelLessons.lastIndex) {
+                                            IosHairlineDivider(modifier = Modifier.padding(start = 52.dp))
+                                        }
                                     }
                                 }
                             }
